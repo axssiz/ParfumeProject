@@ -1,0 +1,260 @@
+/* --- Глобальные настройки и фон --- */
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f8f6f6;
+  color: #333;
+  margin: 0;
+  padding: 30px;
+}
+
+/* --- Заголовки и Навигация --- */
+h1 {
+  color: #5e191e;
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+h2 {
+  color: #5e191e;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 8px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+a {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 8px 15px;
+  background-color: #a0a0a0; /* Серый */
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+a:hover {
+  background-color: #7d7d7d;
+}
+
+/* --- Стилизация Формы Добавления --- */
+form[action="/worker/add_perfume"] {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+}
+
+form[action="/worker/add_perfume"] > * {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box; /* Важно для padding */
+  font-size: 15px;
+  transition: border-color 0.3s;
+}
+
+form[action="/worker/add_perfume"] input:focus,
+form[action="/worker/add_perfume"] textarea:focus,
+form[action="/worker/add_perfume"] select:focus {
+  border-color: #5e191e; /* Цвет бренда при фокусировке */
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Кнопка "Добавить" */
+form[action="/worker/add_perfume"] button[type="submit"] {
+  background-color: #5e191e;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+form[action="/worker/add_perfume"] button[type="submit"]:hover {
+  background-color: #401014; /* Более темный оттенок */
+}
+
+/* --- Стилизация Таблицы --- */
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #ffffff;
+  min-width: 600px;
+}
+
+th,
+td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+  font-size: 14px;
+}
+
+th {
+  background-color: #5e191e; /* Цвет бренда для заголовков */
+  color: white;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tr:nth-child(even) {
+  background-color: #fcfcfc;
+}
+tr:hover {
+  background-color: #f7e8e8; /* Светлый ховер-эффект */
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* Кнопки действий в таблице */
+td button {
+  background-color: #e53935; /* Красный для "Удалить" */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 500;
+}
+
+td button:hover {
+  background-color: #c62828;
+}
+
+/* Отзывчивость */
+@media (max-width: 600px) {
+  body {
+    padding: 15px;
+  }
+  form[action="/worker/add_perfume"] {
+    padding: 20px;
+  }
+}
+
+/* Orders area */
+#orders-area {
+  margin-top: 18px;
+}
+#orders-list {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.order-card {
+  background: #fff;
+  padding: 12px 14px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.order-card .left {
+  display: flex;
+  flex-direction: column;
+}
+.order-card .title {
+  font-weight: 600;
+  color: #222;
+}
+.order-card .meta {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+.order-card .actions {
+  display: flex;
+  gap: 8px;
+}
+.order-card button {
+  background: #5e191e;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 10px;
+  border: none;
+  cursor: pointer;
+}
+.order-card button.ack {
+  background: #2e8b57;
+}
+
+/* Order details modal */
+.order-detail-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1300;
+}
+.order-detail-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 94%;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+}
+.order-detail-box h3 {
+  margin: 0 0 8px;
+  color: #5e191e;
+}
+.order-detail-box .row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed #eee;
+}
+.order-detail-box .row:last-child {
+  border-bottom: none;
+}
+.order-detail-box .label {
+  color: #666;
+}
+.order-detail-box .value {
+  font-weight: 600;
+  color: #222;
+}
+.order-detail-box .close {
+  margin-top: 12px;
+  background: #f0f0f0;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .order-detail-box {
+    padding: 14px;
+  }
+}

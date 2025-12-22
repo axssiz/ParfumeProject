@@ -1,0 +1,14 @@
+{% for p in parfumes %}
+<div class="product-card">
+  <div class="product-image-wrapper">
+    <img src="{{ p.image_url }}" alt="{{ p.name }}" />
+  </div>
+  <div class="product-details">
+    <h2 class="product-name">{{ p.brand }}</h2>
+    <div class="product-info-group">
+      <p class="product-info">{{ p.name }}</p>
+    </div>
+    <p class="product-price">{{ p.price }} KZT</p>
+  </div>
+</div>
+{% endfor %}

@@ -1,0 +1,895 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Oswald:wght@200..700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 1.375rem;
+  font-family: "Oswald";
+  scroll-behavior: smooth;
+}
+header {
+  padding: 0.625rem;
+  padding-bottom: 0;
+}
+nav.menu {
+  display: flex;
+  align-items: center;
+}
+.menu_logo {
+  font-family: "Abril Fatface";
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  text-indent: 1.25rem;
+}
+.img_logo {
+  max-width: 4.688rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 50px;
+}
+
+.search-box input {
+  width: 300px;
+  height: 40px;
+  border: 1px solid #b5b5b5;
+  border-radius: 12px;
+  padding: 0 12px;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+.search-box input:focus {
+  border-color: #5e191e; /* зелёный акцент */
+  box-shadow: 0 0 8px rgba(86, 138, 86, 0.3);
+  outline: none;
+}
+
+.search-box button {
+  height: 40px;
+  padding: 0 18px;
+  border: 1px solid #5e191e;
+  background: white;
+  border-radius: 12px;
+  color: #5e191e;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.search-box button:hover {
+  background: #5e191e;
+  color: white;
+}
+
+nav.menu a {
+  text-decoration: none;
+  color: black;
+}
+.menu_link,
+.menu_link_home {
+  margin: 1px;
+  padding: 20px;
+}
+.menu_link:hover {
+  color: #5e191e;
+}
+.menu_link_home:hover {
+  color: #5e191e;
+}
+.menu_link_home {
+  font-weight: bold;
+}
+.welcome {
+  padding: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0px;
+}
+.welcome_text {
+  font-weight: 450px;
+}
+.welcome_h {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+.welcome_button {
+  margin-top: -20px;
+  display: inline-block;
+  padding: 20px 60px;
+  background-color: #5e191e;
+  color: rgb(255, 255, 255);
+  border-radius: 55px;
+  text-decoration: none;
+  border: 2px solid transparent;
+  margin-left: 175px;
+  display: inline-block; /* Делаем кнопку строчно-блочным элементом */
+  vertical-align: middle;
+}
+.welcome_button:hover {
+  background-color: white;
+  color: #5e191e;
+  cursor: pointer;
+  border: 2px solid #5e191e;
+}
+.welcome_img {
+  width: 650px;
+  height: 650px;
+}
+.find {
+  padding: 55px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.find p {
+  color: rgb(54, 54, 54);
+  font-weight: 300;
+  font-size: 16px;
+  background-color: darkred;
+  border-radius: 10px;
+  padding: 20px;
+}
+.find_top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+}
+.find_top h1 {
+  margin: 20px;
+  padding: 20px;
+  border-bottom: 2px solid black;
+}
+.punkt {
+  display: flex;
+  justify-content: space-between;
+  /* gap: 20px; */
+  margin: 20px;
+}
+.Big_text {
+  font-size: 160px;
+  font-weight: 1000;
+  line-height: 0.8;
+  margin-left: 110px;
+
+  text-shadow: 10px 10px 10px rgba(59, 59, 59, 0.38);
+}
+.Big_text_img {
+  width: 300px;
+  height: 300px;
+  margin-bottom: 0px;
+}
+.glav {
+  margin-top: -70px;
+}
+.text_btn {
+  display: inline-block; /* Делаем текст строчно-блочным элементом */
+  max-width: 60%; /* Ограничиваем ширину, чтобы текст не занимал всю строку */
+  margin-left: 5px; /* Добавляем отступ от кнопки */
+  vertical-align: middle; /* Выравниваем по вертикали (по центру) */
+  text-align: left;
+  margin-top: -20px;
+}
+
+.btn_buy {
+  /* Центрируем родительский блок на странице, если это нужно */
+  text-align: center;
+  margin-left: -250px;
+}
+
+/* --- CSS для плавного появления текста --- */
+
+/* 1. Начальное состояние для всех элементов (скрыто) */
+.Big_text,
+.Big_text_img,
+.welcome_button,
+.text_btn {
+  opacity: 0;
+  /* Всегда используем transform для анимации, так как он более производителен */
+  transition: all 1.2s ease-out;
+}
+
+/* 2. Начальное смещение (задается здесь, а не в JS) */
+.Big_text,
+.Big_text_img {
+  transform: translateY(-50px) scale(0.8); /* Для заголовка и парфюма */
+}
+.welcome_button,
+.text_btn {
+  transform: translateY(50px); /* Для кнопки и описания */
+}
+
+/* 3. Конечное состояние: активация плавного появления */
+/* Этот класс будет добавлен JavaScript'ом */
+.is-loaded {
+  opacity: 1;
+  transform: translateY(0) scale(1) !important; /* !important, чтобы перебить начальные смещения */
+}
+/* Общий контейнер, который выстраивает 3 блока в ряд */
+.stats-container {
+  display: flex;
+  justify-content: space-around; /* Равномерно распределяет блоки по горизонтали */
+  align-items: flex-start; /* Выравнивает элементы по верху */
+  max-width: 1100px; /* Ограничиваем ширину контейнера */
+  margin: 50px auto; /* Центрируем контейнер */
+  padding: 20px 0;
+  margin-top: 300px;
+}
+
+/* Стили для каждого блока статистики */
+.stat-item {
+  /* Делаем .stat-item внутренним контейнером, чтобы выровнять цифру и описание */
+  display: flex;
+  align-items: flex-start; /* Выравниваем цифру и описание по верху */
+  gap: 15px; /* Расстояние между цифрой и описанием */
+}
+
+/* Стили для больших цифр */
+.stat-number {
+  font-size: 5rem; /* Крупный размер шрифта */
+  font-weight: 700; /* Жирный шрифт */
+  color: #555; /* Средне-серый цвет */
+  line-height: 1; /* Убираем лишний интерлиньяж */
+}
+
+/* Стили для небольшого описания */
+.stat-description {
+  font-size: 0.8rem; /* Размер шрифта для описания */
+  color: #888; /* Светло-серый цвет */
+  line-height: 1.3;
+  padding-top: 30px; /* Немного опускаем текст для лучшего вертикального выравнивания */
+}
+
+/* Контейнер для всего hero-блока */
+.hero-section {
+  width: 100%;
+  padding: 50px 0;
+  background-color: #f7f7f7; /* Общий фон для всей секции */
+  overflow: hidden; /* Важно, чтобы избежать горизонтальной прокрутки, если изображение девушки выходит */
+}
+
+/* Обёртка, которая будет содержать статический контент и карусель */
+.hero-content-wrapper {
+  max-width: 1200px; /* Ограничиваем ширину содержимого */
+  margin: 0 auto; /* Центрируем обёртку */
+  display: flex; /* Используем Flexbox */
+  justify-content: space-between; /* Распределяем пространство между элементами */
+  align-items: center; /* Выравниваем по центру по вертикали */
+  position: relative; /* Важно для позиционирования карусели */
+}
+
+/* Статический контент слева */
+.static-content {
+  flex-basis: 50%; /* Занимает 50% ширины */
+  padding-left: 50px; /* Отступ от левого края */
+  z-index: 2; /* Убедитесь, что текст поверх девушки */
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #333;
+  line-height: 1.2;
+}
+
+.highlight {
+  color: #5e191e; /* Яркий цвет для цены */
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 20px;
+}
+
+.hero-button {
+  background-color: #5e191e;
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+/* Стили в style.css */
+.stat-number {
+  /* Начальное состояние: невидимы и немного смещены */
+  opacity: 0;
+  transform: translateY(20px);
+  /* Добавляем плавный переход для анимации */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Конечное состояние: активация анимации */
+.stat-number.animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cashback-badge {
+  position: absolute; /* Позиционируем значок кэшбэка абсолютно */
+  bottom: -20px; /* Например, снизу */
+  left: 200px; /* Смещаем вправо */
+  z-index: 3;
+}
+.badge-image {
+  width: 120px; /* Размер значка кэшбэка */
+  height: auto;
+}
+
+/* Контейнер карусели только для девушки с букетом */
+.image-carousel {
+  /* Если используете Swiper, то .swiper-container */
+  flex-basis: 50%; /* Занимает 50% ширины */
+  height: 600px; /* Высота карусели */
+  position: absolute; /* *** Ключевое изменение: абсолютное позиционирование карусели *** */
+  right: -100px; /* *** Смещаем вправо, чтобы девушка выходила за контейнер *** */
+  top: 0;
+  bottom: 0;
+  width: 60%; /* Увеличиваем ширину, чтобы она была больше 50% и выходила за край */
+  margin: auto; /* Центрируем по вертикали относительно hero-content-wrapper */
+  z-index: 1; /* Девушка будет под текстом */
+}
+
+.carousel-girl-image {
+  width: 1000px; /* Автоматическая ширина */
+  height: 800px; /* Занимает 100% высоты слайда */
+  display: block;
+  object-fit: contain; /* Чтобы изображение помещалось, сохраняя пропорции */
+  margin-left: auto; /* Выравниваем изображение вправо внутри его слайда */
+  margin-top: -100px;
+}
+
+/* Стили для элементов управления Swiper (если нужны) */
+.swiper-pagination,
+.swiper-button-prev,
+.swiper-button-next {
+  z-index: 4; /* Поверх всего */
+}
+.swiper-pagination {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.swiper-button-prev,
+.swiper-button-next {
+  color: #5e191e;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.swiper-button-prev {
+  left: 20px;
+}
+.swiper-button-next {
+  right: 20px;
+}
+.catalog_section {
+  padding: 80px 20px;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.catalog_section h2 {
+  font-family: "Abril Fatface";
+  font-size: 2.8rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+.btn-minimal {
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: #5e191e;
+  border: 1px solid #dcdcdc;
+  color: #222;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+  color: #fff;
+}
+
+.btn-minimal:hover {
+  background: #fff;
+  border-color: #ccc;
+  transform: translateY(-2px);
+  color: #5e191e;
+}
+/* ... Ваши существующие стили ... */
+
+/* --- Стили для Чат-Бота --- */
+
+.chatbot-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #5e191e; /* Фиолетовый акцент */
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: background-color 0.3s, transform 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatbot-toggle-btn:hover {
+  background-color: #5e191e;
+  transform: scale(1.05);
+}
+
+.chatbot-container {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 350px;
+  height: 450px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: none; /* Скрыт по умолчанию */
+  flex-direction: column;
+  z-index: 999;
+}
+
+.chatbot-header {
+  background-color: #5e191e;
+  color: white;
+  padding: 15px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.chatbot-header .close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.chatbot-body {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatbot-footer {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.chatbot-footer input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+  font-size: 14px;
+  outline: none;
+}
+
+.chatbot-footer button {
+  background-color: #5e191e;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-shrink: 0;
+}
+
+.chatbot-footer button:hover {
+  background-color: #5e191e;
+}
+
+.chatbot-footer button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Стили для сообщений */
+.message {
+  padding: 8px 12px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  max-width: 80%;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.user-message {
+  background-color: #e1f5fe; /* Светло-голубой для пользователя */
+  margin-left: auto;
+  text-align: left;
+}
+
+.bot-message {
+  background-color: #ffffff; /* Белый для бота */
+  margin-right: auto;
+  border: 1px solid #eee;
+  text-align: left;
+}
+/* --- Стили для встроенного чата --- */
+.embedded-chatbot-container {
+  max-width: 700px;
+  margin: 40px auto; /* Центрирование и отступ */
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  margin-top: 200px;
+}
+
+.embedded-chatbot-container h2 {
+  color: #5e191e;
+  font-size: 22px;
+  border-bottom: 2px solid #f0e6e6;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+#chat-window {
+  display: flex;
+  flex-direction: column;
+  height: 400px; /* Фиксированная высота окна сообщений */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+
+/* Стили сообщений */
+.message {
+  max-width: 80%;
+  padding: 10px 15px;
+  border-radius: 18px;
+  margin-bottom: 10px;
+  line-height: 1.5;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.user-message {
+  background-color: #bbdefb; /* Светло-синий */
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+
+.system-message {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
+}
+
+/* Форма ввода */
+#chat-form {
+  display: flex;
+  padding: 10px;
+  background-color: #ffffff;
+  border-top: 1px solid #e0e0e0;
+}
+
+#user-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+#chat-form button {
+  background-color: #5e191e;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#chat-form button:hover {
+  background-color: #401014;
+}
+
+#typing-indicator {
+  padding: 5px 15px;
+  font-size: 12px;
+  color: #888;
+  background-color: #f0f0f0;
+}
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+
+@media (max-width: 768px) {
+  html {
+    font-size: 1rem;
+  }
+
+  header {
+    padding: 0.5rem;
+  }
+
+  nav.menu {
+    flex-wrap: wrap;
+    padding: 0 10px;
+  }
+
+  .menu_logo {
+    text-indent: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  .img_logo {
+    max-width: 2.5rem;
+    margin-right: 8px;
+  }
+
+  .search-box {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+    order: 10;
+    flex-basis: 100%;
+  }
+
+  .search-box input {
+    width: 70%;
+    height: 35px;
+    font-size: 14px;
+  }
+
+  .search-box button {
+    height: 35px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .menu_link,
+  .menu_link_home {
+    padding: 12px;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .auth-buttons {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    order: 11;
+    flex-basis: 100%;
+    justify-content: center;
+  }
+
+  .auth-buttons button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .welcome {
+    padding: 30px 15px;
+    flex-direction: column;
+  }
+
+  .glav {
+    margin-top: 0;
+    text-align: center;
+  }
+
+  .Big_text {
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-left: 0;
+    text-shadow: 5px 5px 8px rgba(59, 59, 59, 0.25);
+  }
+
+  .Big_text_img {
+    width: 120px;
+    height: 120px;
+    margin: 15px auto;
+  }
+
+  .btn_buy {
+    text-align: center;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  .welcome_button {
+    display: block;
+    margin: 15px auto 0;
+    padding: 15px 40px;
+    font-size: 1rem;
+    margin-left: 0;
+  }
+
+  .text_btn {
+    display: block;
+    max-width: 100%;
+    margin: 20px 0 0 0;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  .stats-container {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  .stat-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 30px;
+    gap: 10px;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    padding-top: 0;
+  }
+
+  .stat-description {
+    font-size: 0.75rem;
+    padding-top: 0;
+  }
+
+  .hero-section {
+    padding: 30px 0;
+  }
+
+  .hero-content-wrapper {
+    flex-direction: column;
+    padding: 0 15px;
+  }
+
+  .static-content {
+    flex-basis: 100%;
+    padding-left: 0;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin-bottom: 15px;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+
+  .hero-button {
+    padding: 12px 25px;
+    font-size: 0.95rem;
+    margin-top: 20px;
+  }
+
+  .image-carousel {
+    position: relative !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 300px !important;
+    margin-top: 20px;
+  }
+
+  .carousel-girl-image {
+    width: 100%;
+    height: 300px;
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  .catalog_section {
+    padding: 40px 15px;
+  }
+
+  .catalog_section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
+  .embedded-chatbot-container {
+    max-width: 100%;
+    margin: 20px 15px;
+    padding: 20px;
+    margin-top: 80px;
+  }
+
+  .embedded-chatbot-container h2 {
+    font-size: 1.3rem;
+  }
+
+  #chat-window {
+    height: 300px;
+  }
+
+  #user-input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  #chat-form button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 0.9rem;
+  }
+
+  nav.menu {
+    padding: 0 5px;
+  }
+
+  .menu_logo {
+    font-size: 1rem;
+  }
+
+  .search-box input {
+    width: 60%;
+  }
+
+  .Big_text {
+    font-size: 1.8rem;
+  }
+
+  .Big_text_img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .hero-title {
+    font-size: 1.4rem;
+  }
+
+  .welcome_button {
+    padding: 12px 30px;
+    font-size: 0.9rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+}

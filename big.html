@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ parfum.name }} - Essence of Elixirs</title>
+    <!-- <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Oswald:wght@200..700&display=swap"
+      rel="stylesheet"
+    /> -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Oswald", sans-serif;
+        background-color: #f8f8f8;
+        color: #333;
+      }
+
+      header {
+        padding: 0.625rem;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      nav.menu {
+        display: flex;
+        align-items: center;
+      }
+
+      .menu_logo {
+        font-family: "Abril Fatface", serif;
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+        text-indent: 1.25rem;
+        text-decoration: none;
+        color: #111;
+      }
+
+      .img_logo {
+        max-width: 4.688rem;
+      }
+
+      nav.menu a {
+        text-decoration: none;
+        color: black;
+      }
+
+      .menu_link {
+        margin: 1px;
+        padding: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .menu_link:hover {
+        color: #5e191e;
+      }
+
+      .parfum-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      .parfum-detail {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 50px;
+      }
+
+      .parfum-image-wrapper {
+        background-color: #f8f8f8;
+        padding: 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 450px;
+        border-radius: 8px;
+      }
+
+      .parfum-image-wrapper img {
+        width: 100%;
+        height: 150%;
+        max-width: 700px;
+        object-fit: contain;
+      }
+
+      .parfum-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .info-top {
+        margin-bottom: 30px;
+      }
+
+      .title-brand h1 {
+        font-size: 2.5rem;
+        color: #111;
+        margin-bottom: 10px;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      .title-brand h3 {
+        font-size: 1rem;
+        color: #5e191e;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+      }
+
+      .price-section {
+        padding: 20px;
+        background: linear-gradient(135deg, #fef5f5 0%, #f8f0f0 100%);
+        border-left: 4px solid #5e191e;
+        border-radius: 4px;
+        margin-bottom: 24px;
+      }
+
+      .price-label {
+        font-size: 0.75rem;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+      }
+
+      .price-value {
+        font-size: 2rem;
+        color: #5e191e;
+        font-weight: 700;
+      }
+
+      .product-meta {
+        display: flex;
+        gap: 30px;
+        margin-top: 16px;
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .description {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #fafafa;
+        border-left: 4px solid #5e191e;
+        border-radius: 4px;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+      }
+
+      .btn {
+        padding: 14px 24px;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+        font-family: "Oswald", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-add-cart {
+        background: #5e191e;
+        color: white;
+      }
+
+      .btn-add-cart:hover {
+        background: #3a0e12;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(94, 25, 30, 0.3);
+      }
+
+      .btn-add-cart.loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .btn-back {
+        background: #f0f0f0;
+        color: #111;
+        border: 1px solid #ddd;
+      }
+
+      .btn-back:hover {
+        background: #e0e0e0;
+      }
+
+      .success-message {
+        background: #e8f5e9;
+        color: #2e7d32;
+        padding: 12px 16px;
+        border-radius: 4px;
+        margin-bottom: 12px;
+        display: none;
+        border-left: 4px solid #2e7d32;
+      }
+
+      .success-message.show {
+        display: block;
+        animation: slideIn 0.3s ease-out;
+      }
+      nav.menu a {
+        text-decoration: none;
+        color: black;
+      }
+      .menu_link,
+      .menu_link_home {
+        margin: 1px;
+        padding: 20px;
+      }
+      .menu_link:hover {
+        color: #5e191e;
+      }
+      .menu_link_home:hover {
+        color: #5e191e;
+      }
+      .menu_link_home {
+        font-weight: bold;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .parfum-detail {
+          grid-template-columns: 1fr;
+          gap: 30px;
+          padding: 30px 20px;
+        }
+
+        .parfum-image-wrapper {
+          min-height: 350px;
+          padding: 20px;
+        }
+
+        .title-brand h1 {
+          font-size: 1.8rem;
+        }
+
+        .price-value {
+          font-size: 1.5rem;
+        }
+
+        .product-meta {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="menu">
+        <a href="/" class="menu_logo">
+          <img src="/static/images/logo.jpg" alt="logo" class="img_logo" />
+          Essence of Elixirs
+        </a>
+        <a href="/index.html" class="menu_link">Home</a>
+        <a href="/index2.html" class="menu_link">Catalog</a>
+        <a href="/cart" class="menu_link">Cart</a>
+      </nav>
+    </header>
+
+    <div class="parfum-container">
+      <div class="parfum-detail">
+        <div class="parfum-image-wrapper">
+          <img
+            src="{{ parfum.image }}"
+            alt="{{ parfum.name }}"
+            onerror="this.src='/static/images/logo.jpg'"
+          />
+        </div>
+        <div class="parfum-info">
+          <div class="info-top">
+            <div class="title-brand">
+              <h1>{{ parfum.name }}</h1>
+              <h3>{{ parfum.brand }}</h3>
+            </div>
+            <div class="price-section">
+              <div class="price-label">Price</div>
+              <div class="price-value">{{ parfum.price }} ₸</div>
+            </div>
+            <div class="product-meta">
+              {% if parfum.volume_ml %}
+              <div>📏 Volume: {{ parfum.volume_ml }} ml</div>
+              {% endif %} {% if parfum.gender %}
+              <div>👤 For: {{ parfum.gender }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if parfum.description %}
+          <p class="description">{{ parfum.description }}</p>
+          {% endif %}
+
+          <div class="success-message" id="success-msg">
+            ✓ Product added to cart
+          </div>
+
+          <div class="buttons">
+            <button
+              class="btn btn-add-cart"
+              id="add-to-cart-btn"
+              onclick="addToCart()"
+            >
+              🛒 Add to Cart
+            </button>
+            <button class="btn btn-back" onclick="window.history.back()">
+              ← Return to the catalog
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const parfumId = {{ parfum.id }};
+
+      async function addToCart() {
+          const btn = document.getElementById('add-to-cart-btn');
+          const msg = document.getElementById('success-msg');
+
+          btn.classList.add('loading');
+          btn.textContent = '⏳ Addendum...';
+
+          try {
+              const resp = await fetch('/api/cart/add', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                  body: 'parfume_id=' + parfumId + '&quantity=1'
+              });
+
+              const data = await resp.json();
+
+              if (resp.status === 401) {
+                  alert('Please log in to add to the shopping cart.');
+                  window.location.href = '/sign.html';
+                  return;
+              }
+
+              if (data.ok) {
+                  msg.classList.add('show');
+                  btn.textContent = '✓ Added!';
+                  setTimeout(() => {
+                      btn.classList.remove('loading');
+                      btn.textContent = '🛒 Add to Cart';
+                      msg.classList.remove('show');
+                  }, 1500);
+              } else {
+                  alert('Ошибка: ' + (data.msg || "Couldn't add to cart"));
+                  btn.classList.remove('loading');
+                  btn.textContent = '🛒 Add to Cart';
+              }
+          } catch (e) {
+              console.error(e);
+              alert('Ошибка сети');
+              btn.classList.remove('loading');
+              btn.textContent = '🛒 Add to Cart';
+          }
+      }
+    </script>
+  </body>
+</html>

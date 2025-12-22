@@ -1,0 +1,270 @@
+/* ==================================== */
+/* 1. БАЗОВЫЕ СТИЛИ, ФОН И ШРИФТЫ */
+/* ==================================== */
+body {
+  background-color: #f8f8f8; /* Очень светлый, почти белый фон */
+  color: #333333; /* Мягкий темный текст */
+  /* Использование шрифтов с засечками для заголовков и без для основного текста */
+  font-family: "Playfair Display", serif; /* Для заголовков, если подключен */
+  font-family: "Roboto", sans-serif; /* Для основного текста, если подключен */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  margin: 0;
+  min-height: 100vh;
+  box-sizing: border-box; /* Для корректного расчета размеров */
+}
+
+/* Если Playfair Display или Roboto не доступны, используйте системные */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+h1 {
+  color: #1a1a1a; /* Глубокий черный для сильного контраста */
+  margin-bottom: 40px;
+  font-size: 3.2em; /* Большой размер для главного заголовка */
+  font-weight: 700; /* Очень жирный */
+  letter-spacing: 2.5px; /* Увеличенное расстояние между буквами */
+  text-transform: uppercase;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Легкая тень для объема */
+}
+
+/* ==================================== */
+/* 2. СТИЛИ КОНТЕЙНЕРОВ НОТ И DROP-ЗОНЫ */
+/* ==================================== */
+
+.notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px; /* Немного больше зазоры для воздуха */
+  max-width: 950px;
+  margin-bottom: 50px;
+  padding: 35px;
+  background-color: #ffffff; /* Чистый белый фон контейнера */
+  border-radius: 20px; /* Более мягкие углы */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Глубокая, мягкая тень */
+  border: 1px solid #eeeeee; /* Тонкая светлая рамка */
+}
+
+.drop-container {
+  min-width: 400px; /* Увеличиваем размер */
+  min-height: 200px;
+  background-color: #ffffff;
+  border: 2px dashed #d0a0a3; /* Мягкий бордовый для рамки */
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Чтобы ноты могли переноситься на новую строку */
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  margin: 25px;
+  text-align: center;
+  transition: all 0.4s ease-in-out; /* Плавный переход */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Легкая тень */
+}
+
+.drop-container.drag-over {
+  background-color: #5e191e0f; /* Очень легкий оттенок акцентного цвета */
+  border-color: #5e191e; /* Рамка становится акцентного цвета */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================================== */
+/* 3. СТИЛИ КРУГОВ (НОТ) */
+/* ==================================== */
+.circle {
+  width: 85px; /* Чуть больше размер кругов */
+  height: 85px;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0); /* Легкий градиент */
+  color: #333333;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: grab;
+  user-select: none;
+  font-size: 0.85em;
+  font-weight: 600;
+  transition: all 0.25s ease-out; /* Более плавный переход */
+  border: 1px solid #e0e0e0; /* Тонкая светлая рамка */
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.08),
+    -3px -3px 7px rgba(255, 255, 255, 0.7); /* Неоморфизм */
+}
+
+.circle:hover {
+  transform: translateY(-5px) scale(1.08); /* Заметное увеличение при наведении */
+  background: #5e191e; /* Акцентный цвет при наведении */
+  color: #ffffff;
+  cursor: grabbing;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3),
+    -5px -5px 15px rgba(255, 255, 255, 0.9); /* Более выраженная тень */
+}
+
+.circle.dragging {
+  opacity: 0.7;
+  border-style: dashed;
+  border-color: #5e191e;
+  transform: scale(0.95);
+}
+
+/* Стили для нот внутри drop-контейнера */
+.drop-container .circle {
+  margin: 8px; /* Отступы между нотами */
+  background: linear-gradient(
+    145deg,
+    #5e191e,
+    #7b2025
+  ); /* Градиент в акцентном цвете */
+  color: white;
+  border: 1px solid #a03035;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3),
+    -4px -4px 8px rgba(255, 255, 255, 0.2);
+}
+
+/* ==================================== */
+/* 4. СТИЛИ КНОПОК И РЕЗУЛЬТАТА */
+/* ==================================== */
+
+button {
+  background: linear-gradient(145deg, #5e191e, #7b2025); /* Градиент кнопки */
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  margin-top: 30px;
+  border-radius: 8px; /* Более мягкие углы */
+  cursor: pointer;
+  font-size: 1.2em;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Глубокая тень */
+}
+
+button:hover {
+  background: linear-gradient(
+    145deg,
+    #7b2025,
+    #5e191e
+  ); /* Инверсия градиента при наведении */
+  transform: translateY(-3px); /* Легкое поднятие */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+#result {
+  margin-top: 40px;
+  padding: 25px;
+  min-height: 80px;
+  width: 90%;
+  max-width: 750px;
+  background-color: #ffffff;
+  border: 1px solid #eeeeee;
+  border-left: 8px solid #5e191e; /* Толстая акцентная полоса */
+  border-radius: 10px;
+  font-family: "Roboto", sans-serif; /* Для лучшей читаемости */
+  font-size: 1.2em;
+  font-style: italic;
+  line-height: 1.6;
+  text-align: left;
+  white-space: pre-wrap;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px 12px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+
+  .notes-container {
+    max-width: 100%;
+    padding: 20px;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  .drop-container {
+    min-width: 100%;
+    min-height: 200px;
+    padding: 20px;
+    margin: 15px 0;
+  }
+
+  #result {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .circle {
+    width: 70px;
+    height: 70px;
+    font-size: 0.75rem;
+  }
+
+  .circle:hover {
+    transform: translateY(-3px) scale(1.05);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px 10px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+  }
+
+  .notes-container {
+    padding: 15px;
+    gap: 8px;
+  }
+
+  .drop-container {
+    min-height: 150px;
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    margin-top: 15px;
+  }
+
+  .circle {
+    width: 60px;
+    height: 60px;
+    font-size: 0.65rem;
+    margin: 5px 4px;
+  }
+
+  #result {
+    font-size: 0.9rem;
+    padding: 15px;
+  }
+}

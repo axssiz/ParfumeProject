@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfume Lab - Drag & Drop</title>
+    <link rel="stylesheet" href="/static/style/style4.css" />
+  </head>
+  <body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Mobile Sidebar Menu -->
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="header">
+      <h1>Aroma Lab</h1>
+      <p>Drag two or more ingredients to discover the matching perfume.</p>
+    </div>
+
+    <div class="main-container">
+      <div class="ingredients-container">
+        {% for ing in ingredients %}
+        <div class="ingredient" data-code="{{ ing.code }}">{{ ing.name }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="drop-zone-wrapper">
+        <div class="drop-zone">
+          <h3>Drag ingredients here</h3>
+        </div>
+      </div>
+
+      <div class="result-container">
+        <div class="result" id="result"></div>
+        <button id="clearBtn">Clear</button>
+      </div>
+      <button class="back-btn" onclick="window.history.back()">← Back</button>
+    </div>
+
+    <script>
+      const ingredients = document.querySelectorAll(".ingredient");
+      const dropZone = document.querySelector(".drop-zone");
+      const result = document.getElementById("result");
+      const clearBtn = document.getElementById("clearBtn");
+      let selected = [];
+
+      // 1. Drag & drop
+      ingredients.forEach((el) => {
+        el.draggable = true;
+        el.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("text/plain", el.dataset.code);
+          el.classList.add("dragging");
+        });
+        el.addEventListener("dragend", (e) => {
+          el.classList.remove("dragging");
+        });
+      });
+
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("drag-over");
+      });
+
+      dropZone.addEventListener("dragleave", (e) => {
+        dropZone.classList.remove("drag-over");
+      });
+
+      dropZone.addEventListener("drop", async (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("drag-over");
+        const code = e.dataTransfer.getData("text/plain");
+
+        if (!selected.includes(code)) {
+          selected.push(code);
+          updateDropZone();
+        }
+      });
+
+      function updateDropZone() {
+        dropZone.innerHTML = "<h3>Drag ingredients here</h3>";
+
+        const zoneRect = dropZone.getBoundingClientRect();
+
+        selected.forEach((code) => {
+          const originalIng = document.querySelector(
+            `.ingredient[data-code="${code}"]`
+          );
+          if (!originalIng) return;
+
+          const ing = originalIng.cloneNode(true);
+
+          ing.style.position = "absolute";
+          ing.style.top = `${Math.random() * (zoneRect.height - 60)}px`;
+          ing.style.left = `${Math.random() * (zoneRect.width - 60)}px`;
+          ing.style.cursor = "default";
+
+          dropZone.appendChild(ing);
+        });
+
+        checkCombination();
+      }
+
+      // 2. Проверка комбинации через API
+      async function checkCombination() {
+        if (selected.length < 2) {
+          result.innerHTML = "";
+          return;
+        }
+
+        try {
+          const params = new URLSearchParams();
+          selected.forEach((c) => params.append("ingredients", c));
+
+          const resp = await fetch("/check_combination?" + params.toString());
+          const data = await resp.json();
+
+          if (data.found) {
+            showResult(data.parfum);
+          } else {
+            result.innerHTML = `<p>Unknown combination! Keep experimenting.</p>`;
+          }
+        } catch (e) {
+          console.error("Error checking combination:", e);
+          result.innerHTML = `<p>Server connection error.</p>`;
+        }
+      }
+
+      // 3. Show result
+      function showResult(parfum) {
+        result.innerHTML = `
+          <div class="parfum-card">
+            <h3>${parfum.name} (${parfum.brand})</h3>
+            <img src="${parfum.image_url}" alt="${parfum.name}" />
+            <p>Price: ${parfum.price} KZT</p>
+            <button onclick="window.location.href='/big/${parfum.id}'">View Perfume</button>
+          </div>
+        `;
+      }
+
+      // 4. Clear
+      clearBtn.addEventListener("click", () => {
+        selected = [];
+        dropZone.innerHTML = "<h3>Drag ingredients here</h3>";
+        result.innerHTML = "";
+      });
+
+      // 5. Mobile Menu
+      const menuToggle = document.getElementById("menuToggle");
+      const menuClose = document.getElementById("menuClose");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const menuOverlay = document.getElementById("menuOverlay");
+      const mobileMenuLinks = document.querySelectorAll(".mobile-menu-link");
+
+      function openMenu() {
+        mobileMenu.classList.add("active");
+        menuOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMenu() {
+        mobileMenu.classList.remove("active");
+        menuOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      menuToggle.addEventListener("click", openMenu);
+      menuClose.addEventListener("click", closeMenu);
+      menuOverlay.addEventListener("click", closeMenu);
+      mobileMenuLinks.forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+    </script>
+  </body>
+</html>

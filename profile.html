@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="static/style/profile.css" />
+  </head>
+ <style>
+  /* Устанавливаем фон для BODY, который виден, если контейнер меньше */
+
+ </style> 
+  <body>
+    <div class="profile-card">
+      <div class="hhh">
+        <div class="profile-avatar">{{ user.username[0] | upper }}</div>
+        <h1>Profile</h1>
+      </div>
+      <p>User: <b>{{ user.username }}</b></p>
+      <p>Email: <b>{{ email or '—' }}</b></p>
+      <p>Role: <b>{{ user.role }}</b></p>
+
+      <hr />
+      {% if user.role == 'admin' %}
+      <a href="/admin">Admin Panel</a><br />
+      {% endif %} {% if user.role in ['worker','admin'] %}
+      <a href="/worker">Employee Panel</a><br />
+      {% endif %}
+
+      <a href="/logout">Exit</a>
+      
+      <hr />
+      <h2>My orders</h2>
+      <div id="my-orders">
+        <div class="orders-tabs">
+          <button class="tab active" data-tab="active">Active</button>
+          <button class="tab" data-tab="finished">Completed</button>
+        </div>
+        <div id="orders-content">
+          <div id="orders-active" class="orders-list"></div>
+          <div id="orders-finished" class="orders-list" style="display:none"></div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .orders-tabs{display:flex;gap:8px;margin-top:12px}
+      .orders-tabs .tab{padding:8px 12px;border-radius:10px;border:1px solid #eee;background:#fff;cursor:pointer}
+      .orders-tabs .tab.active{background:#5e191e;color:#fff;border-color:#5e191e}
+      .orders-list{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+      .order-item{background:#fff;padding:12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.04);display:flex;justify-content:space-between;align-items:center}
+      .order-meta{color:#666;font-size:14px}
+      .order-actions button{margin-left:8px;padding:8px 10px;border-radius:8px;border:none;cursor:pointer}
+      .confirm-btn{background:#2e8b57;color:#fff}
+      .info-btn{background:#f0f0f0}
+    </style>
+
+    <script>
+      (function(){
+        const tabButtons = document.querySelectorAll('.orders-tabs .tab');
+        const activeEl = document.getElementById('orders-active');
+        const finishedEl = document.getElementById('orders-finished');
+        tabButtons.forEach(b=>b.addEventListener('click', ()=>{
+          tabButtons.forEach(x=>x.classList.remove('active'));
+          b.classList.add('active');
+          const t = b.dataset.tab;
+          if(t==='active'){ activeEl.style.display='flex'; finishedEl.style.display='none'; }
+          else { activeEl.style.display='none'; finishedEl.style.display='flex'; }
+        }));
+
+        const USER_ROLE = "{{ user.role }}";
+
+        async function loadMyOrders(){
+          try{
+            const r = await fetch('/api/my_orders', { credentials: 'include' });
+            const j = await r.json();
+            renderOrders(j);
+          }catch(e){ console.error(e); }
+        }
+
+        function renderOrders(data){
+          activeEl.innerHTML=''; finishedEl.innerHTML='';
+          const active = data.active || [];
+          const finished = data.finished || [];
+          if(active.length===0) activeEl.innerHTML='<div class="order-item">There are no active orders</div>';
+          active.forEach(o=>{
+            const it = document.createElement('div'); it.className='order-item';
+            const statusLabel = o.status || '';
+              const title = (o.items && o.items.length>0) ? o.items.map(it=>it.name).slice(0,2).join(', ') : (o.perfume && (o.perfume.name||o.perfume.title) || '');
+              const priceLabel = o.total_price ? o.total_price : (o.perfume && o.perfume.price ? o.perfume.price : '');
+              it.innerHTML = `<div><div><strong>№${o.order_num||o.id}</strong> — ${title}</div><div class="order-meta">${(o.items && o.items[0] && o.items[0].brand) || (o.perfume&&o.perfume.brand)||''} • ${priceLabel} • <b>${statusLabel}</b></div><div class="order-meta">Имя: ${o.customer_name||'—'}</div></div>`;
+            const actions = document.createElement('div'); actions.className='order-actions';
+              if(o.status==='pending' || o.status==='awaiting_confirmation'){
+              if (USER_ROLE !== 'client') {
+                const btnConfirm = document.createElement('button'); btnConfirm.className='confirm-btn'; btnConfirm.textContent='✓ Confirm';
+                btnConfirm.onclick = async ()=>{
+                  if(!confirm('Confirm the order№' + (o.order_num||o.id) + '?')) return;
+                  try{
+                    const rr = await fetch('/api/orders/'+o.id+'/confirm',{method:'POST', credentials: 'include'});
+                    const jj = await rr.json();
+                    if(jj.ok) loadMyOrders(); else alert(jj.error || "Couldn't confirm");
+                  }catch(e){ alert('Error'); }
+                };
+                const btnReject = document.createElement('button'); btnReject.style.background='#d9534f'; btnReject.style.color='#fff'; btnReject.style.padding='8px 10px'; btnReject.style.borderRadius='8px'; btnReject.style.border='none'; btnReject.style.cursor='pointer'; btnReject.textContent='✕ Refusal';
+                btnReject.onclick = async ()=>{
+                  if(!confirm('Refuse an order №' + (o.order_num||o.id) + '?')) return;
+                  try{
+                    const rr = await fetch('/api/orders/'+o.id+'/status',{method:'POST', credentials: 'include', headers:{'Content-Type':'application/json'},body:JSON.stringify({status:'cancelled'})});
+                    const jj = await rr.json();
+                    if(jj.ok) loadMyOrders(); else alert('Error');
+                  }catch(e){ alert('Error'); }
+                };
+                actions.appendChild(btnConfirm);
+                actions.appendChild(btnReject);
+              }
+            }
+            const info = document.createElement('button'); info.className='info-btn'; info.textContent='More'; info.onclick = ()=> {
+              const comment = o.customer_comment ? 'Comment: ' + o.customer_comment + '\n' : '';
+              const items = (o.items && o.items.length>0) ? o.items.map(it=>`${it.name} × ${it.quantity} — ${it.price} ₸`).join('\n') : (o.perfume? (o.perfume.name||o.perfume.title||'—') : '—');
+              alert('Items:\n' + items + '\nCity: '+(o.customer_city||'—')+'\nNumber: '+(o.customer_phone||'—')+'\nEmail: '+(o.customer_email||'—')+'\n' + comment + 'Status: ' + o.status + '\nTotal: ' + (o.total_price? o.total_price + ' ₸' : '—'));
+            };
+            actions.appendChild(info);
+            it.appendChild(actions);
+            activeEl.appendChild(it);
+          });
+          if(finished.length===0) finishedEl.innerHTML='<div class="order-item">No completed orders</div>';
+          finished.forEach(o=>{
+            const it = document.createElement('div'); it.className='order-item';
+            it.innerHTML = `<div><div><strong>№${o.order_num||o.id}</strong> — ${o.perfume.name||o.perfume.title||''}</div><div class="order-meta">${o.perfume.brand||''} • ${o.perfume.price||''}</div></div>`;
+            const actions = document.createElement('div'); actions.className='order-actions';
+            const info = document.createElement('button'); info.className='info-btn'; info.textContent='More'; info.onclick = ()=> alert('Product: '+(o.perfume.name||o.perfume.title||'—')+'\nCity: '+(o.customer_city||'—')+'\nNumber: '+(o.customer_phone||'—'));
+            actions.appendChild(info);
+            it.appendChild(actions);
+            finishedEl.appendChild(it);
+          });
+        }
+
+        loadMyOrders();
+      })();
+    </script>
+    </div>
+  </body>
+</html>

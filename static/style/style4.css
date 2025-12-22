@@ -1,0 +1,750 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Oswald:wght@200..700&display=swap");
+
+/* ===== БАЗОВЫЕ СТИЛИ ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 1.375rem;
+  font-family: "Oswald", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: #f8f8f8;
+  color: #333333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== HEADER / ЗАГОЛОВОК ===== */
+.header {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0 0 15px;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #333333;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 2px rgba(94, 25, 30, 0.08);
+}
+
+.header p {
+  margin: 0;
+  font-size: 1rem;
+  color: #666666;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+/* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
+.main-container {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  gap: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eeeeee;
+  position: relative;
+}
+
+/* ===== КОНТЕЙНЕР ИНГРЕДИЕНТОВ ===== */
+.ingredients-container {
+  padding: 25px;
+  background-color: #f8f8f8;
+  border-radius: 15px;
+  min-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #e8e8e8;
+}
+
+.ingredients-container .ingredient {
+  display: inline-block;
+  margin: 10px 8px 10px 0;
+  padding: 12px 18px;
+  border-radius: 25px;
+  background: linear-gradient(145deg, #5e191e, #7b2025);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 5px 15px rgba(94, 25, 30, 0.15);
+  cursor: grab;
+  user-select: none;
+  transition: all 0.3s ease;
+  border: none;
+  text-align: center;
+}
+
+.ingredients-container .ingredient:hover {
+  transform: translateY(-8px) scale(1.1);
+  box-shadow: 0 12px 30px rgba(94, 25, 30, 0.35),
+    inset 0 2px 5px rgba(255, 255, 255, 0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ingredients-container .ingredient:active {
+  cursor: grabbing;
+  opacity: 0.85;
+}
+
+.ingredients-container .ingredient.dragging {
+  opacity: 0.6;
+  transform: scale(0.95);
+}
+
+/* Scrollbar для ингредиентов */
+.ingredients-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ingredients-container::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+.ingredients-container::-webkit-scrollbar-thumb {
+  background: #d0a0a3;
+  border-radius: 10px;
+}
+
+.ingredients-container::-webkit-scrollbar-thumb:hover {
+  background: #5e191e;
+}
+
+/* ===== DROP-ZONE (ЗОНА ПЕРЕТАСКИВАНИЯ) ===== */
+.drop-zone-wrapper {
+  padding: 10px;
+}
+
+.drop-zone {
+  min-height: 500px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  border: 2px dashed #d0a0a3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #999999;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  flex-wrap: wrap;
+}
+
+.drop-zone h3 {
+  margin: 0;
+  padding: 20px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  color: #999999;
+}
+
+.drop-zone.drag-over {
+  background-color: #5e191e0f;
+  border-color: #5e191e;
+  box-shadow: 0 6px 25px rgba(94, 25, 30, 0.15),
+    inset 0 0 15px rgba(94, 25, 30, 0.1);
+  transform: translateY(-2px);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    border-color: #5e191e;
+  }
+  50% {
+    border-color: #7b2025;
+    box-shadow: 0 6px 30px rgba(94, 25, 30, 0.25),
+      inset 0 0 20px rgba(94, 25, 30, 0.15);
+  }
+}
+
+.drop-zone .ingredient {
+  position: absolute;
+  margin: 0 !important;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0.95;
+  pointer-events: none;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ===== КОНТЕЙНЕР РЕЗУЛЬТАТА ===== */
+.result-container {
+  padding: 25px;
+  border-radius: 15px;
+  background-color: #f8f8f8;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e8e8e8;
+}
+
+.result {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  min-height: 200px;
+  width: 100%;
+}
+
+.parfum-card {
+  width: 100%;
+  text-align: center;
+  color: #333333;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  border: 1px solid #eeeeee;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.parfum-card h3 {
+  margin: 0 0 15px;
+  color: #5e191e;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.parfum-card img {
+  max-width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.parfum-card p {
+  color: #666666;
+  font-size: 0.95rem;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.parfum-card button {
+  background: linear-gradient(145deg, #5e191e, #7b2025);
+  border: none;
+  color: #ffffff;
+  padding: 12px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(94, 25, 30, 0.2);
+  margin-top: 15px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.parfum-card button:hover {
+  background: linear-gradient(145deg, #7b2025, #5e191e);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(94, 25, 30, 0.3);
+}
+
+.parfum-card button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(94, 25, 30, 0.2);
+}
+
+/* ===== КНОПКИ ===== */
+#clearBtn {
+  background-color: transparent;
+  border: 2px solid #5e191e;
+  color: #5e191e;
+  padding: 12px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  align-self: center;
+  min-width: fit-content;
+}
+
+#clearBtn:hover {
+  background-color: #5e191e;
+  color: #ffffff;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(94, 25, 30, 0.2);
+}
+
+#clearBtn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.back-btn {
+  position: absolute;
+  left: 25px;
+  bottom: 25px;
+  background-color: transparent;
+  border: 2px solid #5e191e;
+  color: #5e191e;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  margin-left: 25px;
+  margin-bottom: 25px;
+}
+
+.back-btn:hover {
+  background-color: #5e191e;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(94, 25, 30, 0.2);
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 1024px) {
+  .main-container {
+    grid-template-columns: 1fr;
+    padding: 30px;
+    gap: 25px;
+  }
+
+  .ingredients-container {
+    min-height: 300px;
+    order: 1;
+  }
+
+  .drop-zone-wrapper {
+    order: 2;
+  }
+
+  .result-container {
+    order: 3;
+  }
+
+  .back-btn {
+    left: auto;
+    right: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px 15px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+
+  .main-container {
+    border-radius: 15px;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .ingredients-container {
+    min-height: 250px;
+    padding: 15px;
+  }
+
+  .drop-zone {
+    min-height: 350px;
+    padding: 20px;
+  }
+
+  .drop-zone h3 {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .result-container {
+    padding: 15px;
+  }
+
+  .parfum-card {
+    padding: 15px;
+  }
+
+  .parfum-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .parfum-card img {
+    height: 150px;
+  }
+
+  .back-btn {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px 10px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header p {
+    font-size: 0.8rem;
+  }
+
+  .main-container {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .ingredients-container,
+  .result-container {
+    min-height: 200px;
+    padding: 12px;
+  }
+
+  .drop-zone {
+    min-height: 250px;
+    padding: 15px;
+  }
+
+  .ingredients-container .ingredient {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    margin: 6px 4px 6px 0;
+  }
+
+  .parfum-card {
+    padding: 10px;
+  }
+
+  .parfum-card button {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ===== УТИЛИТЫ ===== */
+.hidden {
+  display: none !important;
+}
+
+/* ===== ПЛАВНЫЕ АНИМАЦИИ ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    box-shadow: 0 0 0 rgba(94, 25, 30, 0.4);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08), 0 0 0 rgba(94, 25, 30, 0.3);
+  }
+  50% {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1), 0 0 20px rgba(94, 25, 30, 0.15);
+  }
+}
+
+.parfum-card {
+  animation: fadeIn 0.5s ease-out, glow 3s ease-in-out infinite;
+}
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+
+@media (max-width: 1024px) {
+  .main-container {
+    grid-template-columns: 1fr;
+    padding: 30px;
+    gap: 25px;
+  }
+
+  .ingredients-container {
+    min-height: 300px;
+    order: 1;
+  }
+
+  .drop-zone-wrapper {
+    order: 2;
+  }
+
+  .result-container {
+    order: 3;
+  }
+
+  .back-btn {
+    left: auto;
+    right: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px 15px;
+  }
+
+  .header {
+    margin-bottom: 25px;
+  }
+
+  .header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .main-container {
+    grid-template-columns: 1fr;
+    border-radius: 15px;
+    padding: 20px;
+    gap: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .ingredients-container {
+    min-height: 250px;
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .ingredients-container .ingredient {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    margin: 8px 6px 8px 0;
+  }
+
+  .ingredients-container .ingredient:hover {
+    transform: translateY(-6px) scale(1.08);
+  }
+
+  .drop-zone {
+    min-height: 300px;
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .drop-zone h3 {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .result-container {
+    padding: 15px;
+    min-height: 300px;
+  }
+
+  .result {
+    min-height: 150px;
+  }
+
+  .parfum-card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .parfum-card h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .parfum-card img {
+    height: 140px;
+    border-radius: 10px;
+  }
+
+  .parfum-card p {
+    font-size: 0.9rem;
+    margin: 8px 0;
+  }
+
+  .parfum-card button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    margin-top: 12px;
+  }
+
+  #clearBtn {
+    padding: 10px 24px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+
+  .back-btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    left: 15px;
+    bottom: 15px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px 10px;
+  }
+
+  .header {
+    margin-bottom: 15px;
+  }
+
+  .header h1 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .header p {
+    font-size: 0.8rem;
+  }
+
+  .main-container {
+    padding: 12px;
+    gap: 15px;
+    border-radius: 10px;
+  }
+
+  .ingredients-container {
+    min-height: 200px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .ingredients-container .ingredient {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+    margin: 5px 3px 5px 0;
+  }
+
+  .drop-zone {
+    min-height: 220px;
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .drop-zone h3 {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .result-container {
+    padding: 12px;
+    min-height: 250px;
+  }
+
+  .result {
+    min-height: 120px;
+  }
+
+  .parfum-card {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .parfum-card h3 {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .parfum-card img {
+    height: 120px;
+    border-radius: 8px;
+  }
+
+  .parfum-card p {
+    font-size: 0.8rem;
+    margin: 6px 0;
+  }
+
+  .parfum-card button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+
+  #clearBtn {
+    padding: 8px 20px;
+    font-size: 0.75rem;
+    border-radius: 8px;
+  }
+
+  .back-btn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    left: 10px;
+    bottom: 10px;
+    border-radius: 8px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+.parfum-card:hover {
+  animation: glow 2s ease-in-out infinite;
+}

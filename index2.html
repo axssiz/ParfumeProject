@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Essence of Elixirs</title>
+    <link rel="stylesheet" href="/static/style/style2.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Oswald:wght@200..700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 1.375rem;
+  font-family: "Oswald";
+  scroll-behavior: smooth;
+}
+body {
+  background-color: #f8f8f8;
+  color: #333;
+  line-height: 1.6;
+}
+nav.menu a {
+  text-decoration: none;
+  color: black;
+}
+.highlight {
+  color: #5e191e;
+}
+
+/* ==================================== */
+/* 2. Шапка и Навигация (ОБНОВЛЕНО) */
+/* ==================================== */
+header {
+  padding: 0.625rem;
+  padding-bottom: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+nav.menu {
+  display: flex;
+  align-items: center;
+  /* Удалены max-width, margin: 0 auto, padding: 0 20px для соответствия CSS 1 */
+}
+.menu_logo {
+  font-family: "Abril Fatface";
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  text-indent: 1.25rem;
+  /* Удалены font-size, font-weight, color для соответствия CSS 1 */
+}
+.img_logo {
+  max-width: 4.688rem;
+  /* Удалены height: 40px, width: 40px, border-radius: 50%, margin-right: 10px для соответствия CSS 1 */
+}
+
+/* Стили поиска */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 50px;
+}
+.search-box input {
+  width: 300px;
+  height: 40px;
+  border: 1px solid #b5b5b5;
+  border-radius: 12px;
+  padding: 0 12px;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+.search-box input:focus {
+  border-color: #5e191e;
+  box-shadow: 0 0 8px rgba(94, 25, 30, 0.3);
+  outline: none;
+}
+.search-box button {
+  height: 40px;
+  padding: 0 18px;
+  border: 1px solid #5e191e;
+  background: white;
+  border-radius: 12px;
+  color: #5e191e;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.search-box button:hover {
+  background: #5e191e;
+  color: white;
+}
+
+/* Ссылки меню */
+.menu_link,
+.menu_link_home {
+  margin: 1px;
+  padding: 20px;
+}
+.menu_link:hover {
+  color: #5e191e;
+}
+.menu_link_home {
+  font-weight: bold;
+  /* Удален цвет для соответствия CSS 1 */
+}
+.menu_link_home:hover {
+  color: #5e191e;
+}
+
+/* ==================================== */
+/* 3. HERO SECTION */
+/* ==================================== */
+.podborka_section {
+  background-color: #f7f7f7;
+  padding: 50px 0;
+  overflow: hidden;
+}
+.hero-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.hero-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.static-content {
+  flex-basis: 50%;
+  padding-left: 50px;
+  z-index: 2;
+}
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #333;
+  line-height: 1.2;
+}
+.hero-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 20px;
+}
+
+/* Карусель Swiper */
+.image-carousel {
+  flex-basis: 50%;
+  height: 600px;
+  position: absolute;
+  right: -100px; /* Сдвигаем вправо, чтобы девушка выходила за контейнер */
+  top: 0;
+  bottom: 0;
+  width: 60%;
+  margin: auto;
+  z-index: 1;
+}
+.carousel-girl-image {
+  width: 1000px;
+  height: 800px;
+  display: block;
+  object-fit: contain;
+  margin-left: auto;
+  margin-top: -100px;
+}
+/* Стили Swiper по умолчанию для навигации */
+.swiper-pagination,
+.swiper-button-prev,
+.swiper-button-next {
+  z-index: 4;
+}
+
+/* ==================================== */
+/* 4. СЕКЦИЯ КАТАЛОГА */
+/* ==================================== */
+main {
+  padding-bottom: 50px;
+}
+.catalog-container {
+  display: flex;
+  gap: 0px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 4.1. Боковая панель (Фильтры) */
+.filters-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  border-right: 1px solid #e0e0e0;
+  padding-right: 20px;
+}
+
+.catalog_title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+
+/* Заголовок фильтров */
+.filter-header {
+  /* Удалить, если используется логика скрытия/показа в JS */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+}
+
+.filter-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Контейнер выбранных фильтров (активируется через JS) */
+.selected-brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 15px;
+  /* Если вы используете HTML из предыдущего ответа с новым заголовком: */
+  flex-direction: column;
+}
+
+.selected-title-visible {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+#selected-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selected-item {
+  display: inline-flex;
+  align-items: center;
+  background-color: #5e191e;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.selected-item .remove {
+  margin-left: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+#reset-btn {
+  background: none;
+  border: none;
+  color: #5e191e;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: auto;
+  align-self: flex-start;
+  padding: 5px;
+}
+
+/* Список брендов */
+.brands-list-wrapper {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+.brands-list-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+.brands-list-wrapper::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+.brands-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.brand-letter {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  padding-left: 0;
+}
+.brand-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+.brand-check {
+  margin-right: 8px;
+  accent-color: #5e191e;
+}
+
+/* Фильтр цены */
+.price-filter {
+  padding-top: 20px;
+}
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.price-input {
+  width: 80px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+.price-separator {
+  color: #777;
+}
+
+.availability-filter {
+  padding-top: 15px;
+}
+/*
+ * ====================================
+ * СТИЛИ ДЛЯ БЛОКА СОРТИРОВКИ (УЛУЧШЕННЫЕ)
+ * ====================================
+ */
+
+.sort-options {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Увеличим расстояние между элементами */
+  margin-bottom: 25px;
+  font-family: Arial, sans-serif; /* Выберем современный шрифт */
+  margin-left: 50px;
+}
+
+.sort-options label {
+  font-size: 15px;
+  color: #555; /* Мягкий темный цвет */
+  font-weight: 600; /* Полужирный шрифт */
+}
+
+#sort-select {
+  /* Основной вид */
+  padding: 10px 30px 10px 15px; /* Увеличим отступы */
+  border: 1px solid #5e191e;
+  border-radius: 8px; /* Более мягкое закругление */
+  background-color: #f9f9f9;
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+
+  /* Добавляем эффект тени для глубины */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  /* Настраиваем внешний вид стрелки (для чистого дизайна) */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* Позиционирование фоновой иконки стрелки (вы можете заменить ее) */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+
+  /* Добавляем плавность для hover-эффектов */
+  transition: all 0.3s ease;
+}
+
+#sort-select:hover {
+  border-color: #b0b0b0; /* Рамка темнеет при наведении */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень становится заметнее */
+}
+
+#sort-select:focus {
+  border-color: #5e191e; /* Яркий синий цвет фокуса */
+  /* Цвет: #800020 (Бургунди) с прозрачностью (0.3) */
+
+  box-shadow: 0 0 0 4px rgba(128, 0, 32, 0.2);
+}
+
+/* 4.2. Сетка товаров */
+.product-grid {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-left: 20px;
+  padding: 0 20px;
+}
+
+/* ==================================== */
+/* 5. Карточки Товаров */
+/* ==================================== */
+
+.product-card {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  position: relative;
+  max-width: 320px;
+  min-width: 300px;
+  justify-self: center; /* Центрируем карточки в ячейке сетки */
+}
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+.product-image-wrapper {
+  height: 280px;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.product-card img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+.product-details {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  flex-grow: 1;
+}
+.product-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  text-align: left;
+}
+.product-price {
+  font-size: 17px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+.product-info-group {
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+.product-info {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 3px;
+}
+
+/* ==================================== */
+/* 6. Адаптивность */
+/* ==================================== */
+
+@media (max-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  nav.menu {
+    flex-wrap: wrap;
+  }
+  .search-box {
+    order: 3;
+    margin-top: 10px;
+    width: 100%;
+    margin-right: 0;
+    justify-content: center;
+  }
+  .search-box input {
+    width: 80%;
+  }
+  .hero-content-wrapper {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+  .static-content {
+    padding-left: 0;
+    text-align: center;
+  }
+  .image-carousel {
+    position: relative;
+    right: 0;
+    width: 100%;
+    height: 400px;
+  }
+}
+@media (max-width: 768px) {
+  .catalog-container {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+  .filters-sidebar {
+    width: 100%;
+    padding-right: 0;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 20px;
+  }
+  .product-grid {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+    margin-left: 0;
+  }
+  .product-card {
+    max-width: 100%;
+  }
+}
+/* --- Стили для Чат-Бота --- */
+
+.chatbot-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #6a0dad; /* Фиолетовый акцент */
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: background-color 0.3s, transform 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatbot-toggle-btn:hover {
+  background-color: #5a009d;
+  transform: scale(1.05);
+}
+
+.chatbot-container {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 350px;
+  height: 450px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: none; /* Скрыт по умолчанию */
+  flex-direction: column;
+  z-index: 999;
+}
+
+.chatbot-header {
+  background-color: #6a0dad;
+  color: white;
+  padding: 15px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.chatbot-header .close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.chatbot-body {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatbot-footer {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.chatbot-footer input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+  font-size: 14px;
+  outline: none;
+}
+
+.chatbot-footer button {
+  background-color: #6a0dad;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-shrink: 0;
+}
+
+.chatbot-footer button:hover {
+  background-color: #5a009d;
+}
+
+.chatbot-footer button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Стили для сообщений */
+.message {
+  padding: 8px 12px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  max-width: 80%;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.user-message {
+  background-color: #e1f5fe; /* Светло-голубой для пользователя */
+  margin-left: auto;
+  text-align: left; /* Текст внутри сообщения остается слева */
+}
+
+.bot-message {
+  background-color: #ffffff; /* Белый для бота */
+  margin-right: auto;
+  border: 1px solid #eee;
+  text-align: left;
+}
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+
+@media (max-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  nav.menu {
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    order: 3;
+    margin-top: 10px;
+    width: 100%;
+    margin-right: 0;
+    justify-content: center;
+  }
+
+  .search-box input {
+    width: 80%;
+  }
+
+  .hero-content-wrapper {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+
+  .static-content {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .image-carousel {
+    position: relative;
+    right: 0;
+    width: 100%;
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 1rem;
+  }
+
+  header {
+    padding: 0.5rem;
+  }
+
+  nav.menu {
+    flex-wrap: wrap;
+    padding: 0 10px;
+  }
+
+  .menu_logo {
+    font-size: 1.1rem;
+  }
+
+  .img_logo {
+    max-width: 2rem;
+  }
+
+  .search-box {
+    width: 100%;
+    margin: 10px 0;
+    flex-basis: 100%;
+  }
+
+  .search-box input {
+    width: 65%;
+    height: 35px;
+    font-size: 14px;
+  }
+
+  .search-box button {
+    height: 35px;
+    font-size: 13px;
+  }
+
+  .menu_link,
+  .menu_link_home {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+
+  .catalog-container {
+    flex-direction: column;
+    padding: 0 15px;
+  }
+
+  .filters-sidebar {
+    width: 100%;
+    padding-right: 0;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+    margin-left: 0;
+    gap: 15px;
+  }
+
+  .product-card {
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .product-image-wrapper {
+    height: 250px;
+  }
+
+  .product-name {
+    font-size: 15px;
+  }
+
+  .product-price {
+    font-size: 15px;
+  }
+
+  .sort-options {
+    flex-wrap: wrap;
+    margin-left: 0;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  #sort-select {
+    padding: 8px 20px 8px 12px;
+    font-size: 13px;
+  }
+
+  .brands-list-wrapper {
+    max-height: 200px;
+  }
+
+  .filter-title {
+    font-size: 16px;
+  }
+
+  .price-input {
+    width: 70px;
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  /* Chatbot */
+  .chatbot-container {
+    width: 90%;
+    height: 80%;
+    right: 5% !important;
+    bottom: 60px !important;
+  }
+
+  .chatbot-toggle-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 0.9rem;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-card {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .product-image-wrapper {
+    height: 200px;
+  }
+
+  .product-name {
+    font-size: 13px;
+  }
+
+  .product-price {
+    font-size: 14px;
+  }
+
+  .catalog_title {
+    font-size: 18px;
+  }
+
+  .filter-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .selected-brands {
+    flex-direction: column;
+  }
+
+  #reset-btn {
+    align-self: flex-start;
+    margin-top: 10px;
+  }
+
+  .sort-options {
+    flex-direction: column;
+    margin-left: 0;
+  }
+
+  #sort-select {
+    width: 100%;
+  }
+
+  .price-inputs {
+    flex-wrap: wrap;
+  }
+
+  .price-input {
+    width: 60px;
+    font-size: 12px;
+  }
+
+  .brand-item {
+    font-size: 13px;
+  }
+
+  .hero-title {
+    font-size: 1.4rem;
+  }
+
+  .hero-description {
+    font-size: 0.85rem;
+  }
+
+  .image-carousel {
+    height: 250px;
+  }
+}
+
+  </style>
+  <body>
+    <header>
+      <nav class="menu">
+        <a href="#" class="menu_logo">
+          <img src="/static/images/logo.jpg" alt="logo" class="img_logo" />
+          Essence of Elixirs
+        </a>
+        <nav class="navbar bg-body-tertiary">
+          <div class="search-box" style="position:relative; display:inline-block;">
+            <input id="site-search-2" type="text" placeholder="Search for a perfume or brand" autocomplete="off" />
+            <button id="search-button-2">Поиск</button>
+            <div id="search-suggestions-2" style="display:none; position:absolute; left:0; top:100%; margin-top:6px; width:300px; max-height:300px; overflow:auto; background:#fff; border:1px solid #eee; box-shadow:0 8px 20px rgba(0,0,0,0.08); border-radius:8px; padding:6px 0; z-index:9999; font-size:14px;"></div>
+          </div>
+        </nav>
+        <a href="/index.html" class="menu_link">Home</a>
+        <a href="#find_" class="menu_link_home">Catalog</a>
+        
+        <a href="/index3.html" class="menu_link">Game</a>
+        <a href="/cart" class="menu_link">Cart</a>
+        <a href="/profile" class="menu_link">Profile </a>
+        <a href="/logout" class="menu_link">Logout</a>
+        
+            
+          
+      </nav>
+    </header>
+
+
+<main>
+  <section class="podborka_section">
+    <section class="hero-section">
+      <div class="hero-content-wrapper">
+        <div class="static-content">
+          <h1 class="hero-title">
+            200+ FRAGRANCES <br />
+            FROM <span class="highlight">12,900₸</span><br />
+            FAST DELIVERY IN ASTANA
+          </h1>
+          <p class="hero-description">
+            Order perfume and get 5% <br />
+            cashback on every order.
+          </p>
+          <div class="cashback-badge"></div>
+        </div>
+
+        <div class="swiper-container image-carousel">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img
+                src="/static/images/6112ee56f3f51b75434a4ba5a0b33b05-Photoroom.png"
+                alt="Девушка с букетом 1"
+                class="carousel-girl-image"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="/static/images/5de09918ef9922766fdcc9a7f93c3579-Photoroom.png"
+                alt="Девушка с букетом 2"
+                class="carousel-girl-image"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="/static/images/20efe0636f9bf6af47f617f98c28ff3e-Photoroom.png"
+                alt="Девушка с букетом 3"
+                class="carousel-girl-image"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section id="catalog-section">
+    <div class="catalog-container">
+      <aside class="filters-sidebar">
+        <h1 class="catalog_title">Perfume catalog</h1>
+
+        <div class="filter-container">
+          <div class="filter-header">
+            <h3 class="filter-title">Selected Filters</h3>
+          </div> 
+          <div
+            id="selected-brands"
+            class="selected-brands"
+            style="display: none"
+          >
+            <div id="selected-list"></div>
+            <button
+              id="reset-btn"
+              onclick="resetBrands()"
+              style="display: none"
+            >
+              Throw off
+            </button>
+          </div>
+        </div>
+
+        <div class="brands-section">
+          <div class="brands-list-wrapper">
+            <ul class="brands-list">
+              {% for letter, items in brands_grouped.items() %}
+              <li class="brand-letter">{{ letter }}</li>
+              {% for brand in items %}
+              <li class="brand-item">
+                <input
+                  type="checkbox"
+                  class="brand-check"
+                  value="{{ brand }}"
+                  id="brand-{{ brand }}"
+                />
+                <label for="brand-{{ brand }}">{{ brand }}</label>
+              </li>
+              {% endfor %} {% endfor %}
+            </ul>
+          </div>
+
+          <div class="filter-group price-filter">
+            <h3 class="filter-title">Price, ₸</h3>
+            <div class="price-inputs">
+                <input 
+                    type="number" 
+                    placeholder="От" 
+                    class="price-input" 
+                    id="price-min" 
+                    name="price_min"
+                    value="{{ price_min if price_min is not none else '' }}"
+                    onchange="applyPriceFilter()"
+                />
+                <span class="price-separator">—</span>
+                <input 
+                    type="number" 
+                    placeholder="До" 
+                    class="price-input" 
+                    id="price-max" 
+                    name="price_max"
+                    value="{{ price_max if price_max is not none else '' }}"
+                    onchange="applyPriceFilter()"
+                />
+            </div>
+          </div>
+
+          <label class="filter-checkbox-label availability-filter">
+            <input type="checkbox" /> Available only
+          </label>
+        </div>
+      </aside>
+
+      <div class="product-content">
+        <div class="sort-options" style="margin-bottom: 20px;">
+            <label for="sort-select">Sort:</label>
+            <select id="sort-select" onchange="applySort(this.value)">
+                <option value="id_asc" {% if current_sort == 'id_asc' %}selected{% endif %}>By default</option>
+                <option value="price_asc" {% if current_sort == 'price_asc' %}selected{% endif %}>Cheap ones first</option>
+                <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Dear ones first</option>
+                <option value="name_asc" {% if current_sort == 'name_asc' %}selected{% endif %}>By name (A-Z)</option>
+            </select>
+        </div>
+        
+        <div class="product-grid" id="product-grid">
+          {% for p in parfumes %}
+          <!-- добавлен data-id с p.id -->
+          <div class="product-card" data-id="{{ p.id }}">
+            <div class="product-image-wrapper">
+              <img src="{{ p.image_url }}" alt="{{ p.name }}" />
+            </div>
+            <div class="product-details">
+              <h2 class="product-name">{{ p.brand }}</h2>
+              <div class="product-info-group">
+                <p class="product-info">{{ p.name }}</p>
+              </div>
+              <p class="product-price">{{ p.price }} KZT</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  
+</main>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+```
+
+<script>
+    // Инициализация Swiper (оставлена без изменений)
+    const swiper = new Swiper(".image-carousel", {
+        slidesPerView: 1,
+        loop: true,
+        autoplay: {
+            delay: 3500,
+            disableOnInteraction: false,
+        },
+        pagination: { el: ".swiper-pagination", clickable: true },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        effect: "fade",
+        fadeEffect: { crossFade: true },
+    });
+
+    // ====================================
+    //       ФУНКЦИОНАЛ ФИЛЬТРАЦИИ И СОРТИРОВКИ (AJAX)
+    // ====================================
+
+    const productGrid = document.getElementById('product-grid');
+    const checkboxes = document.querySelectorAll(".brand-check");
+    const selectedContainer = document.getElementById("selected-brands");
+    const selectedList = document.getElementById("selected-list");
+    const resetBtn = document.getElementById("reset-btn");
+    
+    // --- Функция привязки кликов к карточкам (вызывается после рендера карточек) ---
+    function attachCardClickHandler() {
+        document.querySelectorAll('.product-card').forEach(card => {
+            // убираем старые обработчики (на всякий случай)
+            card.replaceWith(card.cloneNode(true));
+        });
+        // заново выбираем
+        document.querySelectorAll('.product-card').forEach(card => {
+            const id = card.dataset.id;
+            if (!id) return;
+            card.addEventListener('click', () => {
+                // перенаправляем на маршрут с id, соответствующий FastAPI: /big/{parfum_id}
+                window.location.href = `/big/${id}`;
+            });
+        });
+    }
+
+    // --- ГЛАВНАЯ ФУНКЦИЯ: Асинхронно получает товары и обновляет UI ---
+    async function fetchProductsAndUpdateUI() {
+        const params = new URLSearchParams();
+
+        [...checkboxes].filter(x => x.checked).map(x => x.value).forEach(brand => {
+            params.append('brands', brand);
+        });
+
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect && sortSelect.value !== 'id_asc') {
+            params.set('sort_by', sortSelect.value);
+        }
+
+        const minVal = document.getElementById('price-min').value;
+        const maxVal = document.getElementById('price-max').value;
+        if (minVal) params.set('price_min', minVal);
+        if (maxVal) params.set('price_max', maxVal);
+        
+        const fetchUrl = window.location.origin + '/products?' + params.toString();
+
+        try {
+            productGrid.style.opacity = 0.5; 
+
+            const response = await fetch(fetchUrl, { credentials: 'include' });
+            if (!response.ok) {
+                throw new Error('Ошибка сети при загрузке товаров.');
+            }
+
+            const newHtml = await response.text();
+            
+            productGrid.innerHTML = newHtml;
+            productGrid.style.opacity = 1;
+
+            // после замены HTML заново привязываем клики
+            attachCardClickHandler();
+
+            const newUrl = window.location.origin + window.location.pathname + '?' + params.toString();
+            history.pushState(null, '', newUrl);
+
+        } catch (error) {
+            console.error("Ошибка при обновлении каталога:", error);
+            productGrid.innerHTML = '<h2>Не удалось загрузить товары.</h2>';
+            productGrid.style.opacity = 1;
+        }
+        
+        updateSelectedBrandsDisplay();
+    }
+
+
+    // --- ФУНКЦИИ-ОБЕРТКИ ДЛЯ ФИЛЬТРОВ/СОРТИРОВКИ ---
+    window.applySort = function (sortValue) {
+        fetchProductsAndUpdateUI(); 
+    };
+
+    function applyBrandFilter() {
+        fetchProductsAndUpdateUI(); 
+    }
+
+    window.resetBrands = function () {
+        checkboxes.forEach((ch) => (ch.checked = false));
+        fetchProductsAndUpdateUI();
+    };
+    
+    window.applyPriceFilter = function () {
+        fetchProductsAndUpdateUI();
+    };
+
+
+    // --- ФУНКЦИЯ ОТОБРАЖЕНИЯ ВЫБРАННЫХ ТЕГОВ (UI) ---
+    function updateSelectedBrandsDisplay() {
+        const selected = [...checkboxes]
+            .filter((x) => x.checked)
+            .map((x) => x.value);
+
+        selectedList.innerHTML = "";
+
+        if (selected.length === 0) {
+            selectedContainer.style.display = "none";
+            resetBtn.style.display = "none";
+            return;
+        }
+
+        selectedContainer.style.display = "flex";
+        resetBtn.style.display = "inline-block";
+
+        selected.forEach((brand) => {
+            const item = document.createElement("div");
+            item.classList.add("selected-item");
+            item.innerHTML = `${brand} <span class="remove" data-brand="${brand}">×</span>`;
+            selectedList.appendChild(item);
+        });
+
+        document.querySelectorAll(".remove").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const brand = btn.getAttribute("data-brand");
+                const el = document.getElementById("brand-" + brand);
+                if (el) el.checked = false;
+                applyBrandFilter();
+            });
+        });
+    }
+
+    // --- ИНИЦИАЛИЗАЦИЯ (ПРИ ЗАГРУЗКЕ СТРАНИЦЫ) ---
+    document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        checkboxes.forEach((ch) => {
+            if (urlParams.getAll('brands').includes(ch.value)) {
+                ch.checked = true;
+            }
+            ch.addEventListener("change", applyBrandFilter);
+        });
+        
+        const currentSortParam = urlParams.get('sort_by') || 'id_asc';
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.value = currentSortParam;
+            sortSelect.addEventListener('change', () => applySort(sortSelect.value));
+        }
+
+        const priceMinInput = document.getElementById('price-min');
+        const priceMaxInput = document.getElementById('price-max');
+        if (priceMinInput && urlParams.get('price_min')) {
+            priceMinInput.value = urlParams.get('price_min');
+        }
+        if (priceMaxInput && urlParams.get('price_max')) {
+            priceMaxInput.value = urlParams.get('price_max');
+        }
+        
+        updateSelectedBrandsDisplay();
+
+        // привязываем клики к карточкам, которые уже есть при первичной загрузке
+        attachCardClickHandler();
+
+        // Если пришёл параметр brands — сразу проскроллить к каталогу и скрыть/остановить карусель
+        if(urlParams.has('brands')){
+          try{
+            const hero = document.querySelector('.hero-section');
+            if(hero){ hero.style.display = 'none'; }
+            // остановим autoplay если есть swiper
+            if(typeof swiper !== 'undefined' && swiper && swiper.autoplay){
+              try{ swiper.autoplay.stop(); }catch(e){}
+            }
+            const catalog = document.getElementById('catalog-section') || document.getElementById('product-grid');
+            if(catalog){ setTimeout(()=> catalog.scrollIntoView({behavior:'smooth'}), 80); }
+          }catch(e){ console.error('scroll to catalog error', e); }
+        }
+    });
+    // ... (существующий JS код для swiper, фильтров, attachCardClickHandler, fetchProductsAndUpdateUI и т.д.) ...
+
+
+// ====================================
+//        ФУНКЦИОНАЛ ЧАТ-БОТА (ИИ)
+// ====================================
+
+
+</script>
+
+  </body>
+</html>

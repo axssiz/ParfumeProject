@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Корзина - Essence of Elixirs</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Oswald:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Oswald", sans-serif;
+        background-color: #f8f8f8;
+        color: #333;
+      }
+
+      header {
+        padding: 0.625rem;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      nav.menu {
+        display: flex;
+        align-items: center;
+      }
+
+      .menu_logo {
+        font-family: "Abril Fatface", serif;
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+        text-indent: 1.25rem;
+        text-decoration: none;
+        color: #111;
+      }
+
+      .img_logo {
+        max-width: 4.688rem;
+      }
+
+      nav.menu a {
+        text-decoration: none;
+        color: black;
+      }
+
+      .menu_link {
+        margin: 1px;
+        padding: 20px;
+        transition: color 0.3s ease;
+      }
+
+      .menu_link:hover {
+        color: #5e191e;
+      }
+
+      .cart-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      .cart-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .cart-header h1 {
+        font-size: 2.5rem;
+        color: #5e191e;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .cart-header p {
+        color: #666;
+        font-size: 0.95rem;
+      }
+
+      .cart-content {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 30px;
+      }
+
+      .cart-items-list {
+        background: #fff;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .cart-empty {
+        padding: 60px 20px;
+        text-align: center;
+        color: #999;
+      }
+
+      .cart-empty p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+
+      .btn-shop {
+        display: inline-block;
+        background: #5e191e;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: background 0.3s;
+      }
+
+      .btn-shop:hover {
+        background: #3a0e12;
+      }
+
+      .cart-item {
+        display: flex;
+        gap: 16px;
+        padding: 16px;
+        border-bottom: 1px solid #f0f0f0;
+        align-items: center;
+        transition: background 0.2s;
+      }
+
+      .cart-item:hover {
+        background: #fafafa;
+      }
+
+      .item-image {
+        width: 70px;
+        height: 70px;
+        background: #f5f5f5;
+        border-radius: 4px;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .item-info {
+        flex: 1;
+      }
+
+      .item-brand {
+        font-size: 0.75rem;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+      }
+
+      .item-name {
+        font-size: 0.95rem;
+        color: #111;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .item-price {
+        font-size: 0.9rem;
+        color: #5e191e;
+        font-weight: 600;
+      }
+
+      .item-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .qty-input {
+        width: 50px;
+        padding: 6px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 0.9rem;
+        font-family: "Oswald", sans-serif;
+      }
+
+      .qty-input:focus {
+        outline: none;
+        border-color: #5e191e;
+        box-shadow: 0 0 0 2px rgba(94, 25, 30, 0.1);
+      }
+
+      .btn-remove {
+        background: #fee;
+        border: none;
+        color: #d32f2f;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: background 0.2s;
+        font-family: "Oswald", sans-serif;
+      }
+
+      .btn-remove:hover {
+        background: #fdd;
+      }
+
+      .cart-summary {
+        background: #fff;
+        border-radius: 4px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+        position: sticky;
+        top: 20px;
+      }
+
+      .summary-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #111;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #5e191e;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .summary-total {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 12px;
+        border-top: 2px solid #f0f0f0;
+        margin-bottom: 20px;
+      }
+
+      .summary-total .label {
+        font-weight: 700;
+        color: #111;
+        font-size: 1rem;
+      }
+
+      .summary-total .value {
+        font-weight: 700;
+        color: #5e191e;
+        font-size: 1.3rem;
+      }
+
+      .btn-checkout {
+        width: 100%;
+        background: #5e191e;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-family: "Oswald", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-checkout:hover:not(:disabled) {
+        background: #3a0e12;
+      }
+
+      .btn-checkout:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .btn-continue {
+        width: 100%;
+        background: #f5f5f5;
+        color: #111;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 8px;
+        transition: background 0.2s;
+        font-family: "Oswald", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-continue:hover {
+        background: #eee;
+      }
+
+      @media (max-width: 768px) {
+        .cart-content {
+          grid-template-columns: 1fr;
+        }
+
+        .cart-summary {
+          position: static;
+          top: auto;
+        }
+
+        .cart-header h1 {
+          font-size: 1.8rem;
+        }
+      }
+
+      /* Модальное окно для оформления заказа */
+      #checkout-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .modal-header {
+        margin-bottom: 24px;
+      }
+
+      .modal-header h2 {
+        color: #5e191e;
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+      }
+
+      .modal-header p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-family: "Oswald", sans-serif;
+        font-size: 0.95rem;
+        transition: border-color 0.3s;
+        box-sizing: border-box;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #5e191e;
+        box-shadow: 0 0 0 3px rgba(94, 25, 30, 0.1);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .form-group .required {
+        color: #e74c3c;
+      }
+
+      .modal-footer {
+        display: flex;
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .btn-cancel {
+        flex: 1;
+        padding: 12px 20px;
+        background: #f5f5f5;
+        color: #333;
+        border: none;
+        border-radius: 6px;
+        font-family: "Oswald", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .btn-cancel:hover {
+        background: #eee;
+      }
+
+      .btn-submit-order {
+        flex: 1;
+        padding: 12px 20px;
+        background: #5e191e;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-family: "Oswald", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-submit-order:hover {
+        background: #3a0e12;
+      }
+
+      .btn-submit-order:active {
+        transform: scale(0.98);
+      }
+
+      @media (max-width: 600px) {
+        .modal-content {
+          padding: 24px;
+        }
+
+        .modal-header h2 {
+          font-size: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="menu">
+        <a href="/" class="menu_logo">
+          <img src="/static/images/logo.jpg" alt="logo" class="img_logo" />
+          Essence of Elixirs
+        </a>
+        <a href="/index.html" class="menu_link">Home</a>
+        <a href="/index2.html" class="menu_link">Catalog</a>
+        <a href="/cart" class="menu_link">Cart</a>
+      </nav>
+    </header>
+
+    <div class="cart-container">
+      <div class="cart-header">
+        <h1>🛒 Your shopping cart</h1>
+        <p>Check the selected products and place an order</p>
+      </div>
+
+      <div class="cart-content">
+        <div class="cart-items-list" id="cart-items">
+          <div class="cart-empty">
+            <p>The basket is empty</p>
+            <a href="/index2.html" class="btn-shop">Go to the catalog</a>
+          </div>
+        </div>
+
+        <div class="cart-summary">
+          <div class="summary-title">Total</div>
+          <div class="summary-row">
+            <span>Products:</span>
+            <span id="item-count">0</span>
+          </div>
+          <div class="summary-row">
+            <span>The amount:</span>
+            <span id="subtotal">0 ₸</span>
+          </div>
+          <div class="summary-row">
+            <span>Delivery:</span>
+            <span>Free </span>
+          </div>
+          <div class="summary-total">
+            <span class="label">To be paid:</span>
+            <span class="value" id="total">0 ₸</span>
+          </div>
+          <button class="btn-checkout" id="checkout-btn" onclick="checkout()">
+            Place an order
+          </button>
+          <button class="btn-continue" onclick="location.href='/index2.html'">
+            Continue shopping
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      async function loadCart() {
+        try {
+          const resp = await fetch("/api/cart");
+          if (!resp.ok) throw new Error("Ошибка загрузки корзины");
+          const data = await resp.json();
+          renderCart(data.items || []);
+          updateSummary(data);
+        } catch (e) {
+          console.error(e);
+          document.getElementById("cart-items").innerHTML =
+            '<div class="cart-empty"><p>Ошибка загрузки корзины</p></div>';
+        }
+      }
+
+      function renderCart(items) {
+        const container = document.getElementById("cart-items");
+        if (!items || items.length === 0) {
+          container.innerHTML = `
+                    <div class="cart-empty">
+                        <p>Корзина пуста</p>
+                        <a href="/index2.html" class="btn-shop">Перейти в каталог</a>
+                    </div>
+                `;
+          return;
+        }
+
+        container.innerHTML = items
+          .map(
+            (item) => `
+                <div class="cart-item">
+                    <div class="item-image">
+                        <img src="${
+                          item.image_url || "/static/images/logo.jpg"
+                        }" alt="${item.name}" />
+                    </div>
+                    <div class="item-info">
+                        <div class="item-brand">${item.brand || "Бренд"}</div>
+                        <div class="item-name">${item.name || "Товар"}</div>
+                        <div class="item-price">${item.price} ₸</div>
+                    </div>
+                    <div class="item-controls">
+                        <input type="number" class="qty-input" value="${
+                          item.quantity
+                        }" min="1" max="99" 
+                               onchange="updateQty(${
+                                 item.cart_id
+                               }, this.value)" />
+                        <button class="btn-remove" onclick="removeItem(${
+                          item.cart_id
+                        })">Удалить</button>
+                    </div>
+                </div>
+            `
+          )
+          .join("");
+      }
+
+      function updateSummary(data) {
+        const items = data.items || [];
+        const total = data.total || 0;
+        document.getElementById("item-count").textContent = items.length;
+        document.getElementById("subtotal").textContent =
+          total.toLocaleString("ru-RU") + " ₸";
+        document.getElementById("total").textContent =
+          total.toLocaleString("ru-RU") + " ₸";
+        document.getElementById("checkout-btn").disabled = items.length === 0;
+      }
+
+      async function removeItem(cartId) {
+        if (!confirm("Удалить товар из корзины?")) return;
+        try {
+          const resp = await fetch("/api/cart/remove", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "cart_id=" + cartId,
+          });
+          if (resp.ok) {
+            loadCart();
+          } else {
+            alert("Ошибка удаления товара");
+          }
+        } catch (e) {
+          console.error(e);
+          alert("Ошибка сети");
+        }
+      }
+
+      async function updateQty(cartId, qty) {
+        const q = parseInt(qty) || 1;
+        try {
+          const resp = await fetch("/api/cart/update", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "cart_id=" + cartId + "&quantity=" + q,
+          });
+          if (resp.ok) {
+            loadCart();
+          } else {
+            alert("Ошибка обновления количества");
+          }
+        } catch (e) {
+          console.error(e);
+          alert("Ошибка сети");
+        }
+      }
+
+      function openCheckoutModal() {
+        document.getElementById("checkout-modal").style.display = "flex";
+      }
+
+      function closeCheckoutModal() {
+        document.getElementById("checkout-modal").style.display = "none";
+      }
+
+      async function submitCheckout() {
+        const name = document.getElementById("customer-name").value.trim();
+        const phone = document.getElementById("customer-phone").value.trim();
+        const city = document.getElementById("customer-city").value.trim();
+        const comment = document
+          .getElementById("customer-comment")
+          .value.trim();
+
+        if (!name) {
+          alert("Пожалуйста, введите имя");
+          return;
+        }
+        if (!phone) {
+          alert("Пожалуйста, введите номер телефона");
+          return;
+        }
+        if (!city) {
+          alert("Пожалуйста, введите адрес / город доставки");
+          return;
+        }
+
+        try {
+          const resp = await fetch("/api/create_order", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              customer_name: name,
+              customer_phone: phone,
+              customer_city: city,
+              customer_comment: comment,
+            }),
+          });
+          const j = await resp.json();
+          if (resp.ok && j.ok) {
+            closeCheckoutModal();
+            alert(
+              "Заказ создан. Номер заказа: " + (j.order.order_num || j.order.id)
+            );
+            location.href = "/profile";
+          } else {
+            alert(
+              "Ошибка создания заказа: " +
+                (j.error || j.msg || JSON.stringify(j))
+            );
+          }
+        } catch (e) {
+          console.error(e);
+          alert("Ошибка сети при создании заказа");
+        }
+      }
+
+      function checkout() {
+        openCheckoutModal();
+      }
+
+      // Загружаем корзину при загрузке страницы
+      document.addEventListener("DOMContentLoaded", loadCart);
+
+      // Закрытие модального окна при клике на фон
+      document
+        .getElementById("checkout-modal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeCheckoutModal();
+          }
+        });
+
+      // Отправка формы по Enter в последнем поле
+      document
+        .getElementById("customer-comment")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter" && e.ctrlKey) {
+            submitCheckout();
+          }
+        });
+    </script>
+
+    <!-- Модальное окно для оформления заказа -->
+    <div id="checkout-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Оформление заказа</h2>
+          <p>Пожалуйста, укажите Ваши данные для доставки</p>
+        </div>
+        <form onsubmit="event.preventDefault(); submitCheckout();">
+          <div class="form-group">
+            <label>Ваше имя <span class="required">*</span></label>
+            <input
+              type="text"
+              id="customer-name"
+              placeholder="Иван Иванов"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>Номер телефона <span class="required">*</span></label>
+            <input
+              type="tel"
+              id="customer-phone"
+              placeholder="+7 (999) 123-45-67"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label
+              >Адрес / Город доставки <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="customer-city"
+              placeholder="г. Алматы, пр. Абая, 123"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>Комментарий (необязательно)</label>
+            <textarea
+              id="customer-comment"
+              placeholder="Например: оставить в тамбуре, доставить с 14:00 до 18:00..."
+            ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn-cancel"
+              onclick="closeCheckoutModal()"
+            >
+              Отмена
+            </button>
+            <button
+              type="button"
+              class="btn-submit-order"
+              onclick="submitCheckout()"
+            >
+              Оформить заказ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

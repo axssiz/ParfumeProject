@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Essence of Elixirs</title>
+    <link rel="stylesheet" href="/static/style/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+  </head>
+  <body>
+    <div id="main-hero">
+      <header>
+        <nav class="menu">
+          <a href="#" class="menu_logo">
+            <img
+              src="static/images/logo.jpg"
+              alt="logo"
+              class="img_logo"
+            />Essence of Elixirs
+          </a>
+
+          <nav class="navbar bg-body-tertiary">
+            <div class="search-box" style="position:relative; display:inline-block;">
+              <input id="site-search" type="text" placeholder="Search for a perfume or brand" autocomplete="off" />
+              <button id="search-button">Поиск</button>
+              <div id="search-suggestions" class="search-suggestions" style="display:none; position:absolute; background:#fff; border:1px solid #eee; max-height:320px; overflow:auto; z-index:9999; left:0; top:100%; margin-top:6px; width:320px; box-shadow:0 8px 24px rgba(0,0,0,0.10); border-radius:8px; padding:4px 0; font-size:14px;"></div>
+            </div>
+          </nav>
+
+          <a href="#welcome_" class="menu_link_home">Home</a>
+          <a href="/index2.html" class="menu_link">Catalog</a>
+          
+          <a href="/lab" class="menu_link">Game</a>
+          <a href="/cart" class="menu_link">Cart</a>
+
+          <div id="auth-buttons" class="auth-buttons">
+            <button onclick="location.href='/sign.html'" class="btn-minimal">
+              Login
+            </button>
+            <button onclick="location.href='/reg.html'" class="btn-minimal">
+              Register
+            </button>
+          </div>
+
+          <div id="profile" class="profile" style="display: none">
+            <a href="/profile" class="menu_link">Profile </a>
+            <a href="/logout" class="menu_link">Logout</a>
+          </div>
+        </nav>
+      </header>
+
+      <section id="welcome_" class="welcome">
+        <div class="glav">
+          <h1 class="Big_text">
+            FIND YOUR
+            <img
+              src="static/images/Дизайн без названия (3).png"
+              alt=""
+              class="Big_text_img"
+            />
+            SIGNATURE SCENT
+          </h1>
+        </div>
+      </section>
+
+      <section class="btn_buy">
+        <a href="./index2.html" class="welcome_button">BUY NOW</a>
+        <div class="text_btn">
+          Discover the art of fragrance. Our perfumes are crafted to tell your
+          unique story, combining timeless elegance with <br />modern allure.
+          Find the scent that defines you and leaves a lasting impression.
+        </div>
+      </section>
+    </div>
+
+    
+    </div>
+    <div class="embedded-chatbot-container">
+    <h2>Ask our perfume expert (AI)</h2>
+    <div id="chat-window">
+        <div id="messages">
+            <div class="message system-message">
+               Hi! I'm your perfume expert. Ask about brands, fragrances, and delivery options!
+            </div>
+        </div>
+        <form id="chat-form">
+            <input type="text" id="user-input" placeholder="Enter your question..." required>
+            <button type="submit">Send</button>
+        </form>
+        <div id="typing-indicator" style="display: none;">The expert is typing...</div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+      (function(){
+        const input = document.getElementById('site-search');
+        const suggestions = document.getElementById('search-suggestions');
+        const btn = document.getElementById('search-button');
+        let timer = null;
+        let items = [];
+        let selected = -1;
+
+        function hide() { suggestions.style.display = 'none'; suggestions.innerHTML = '' }
+
+        function render(results){
+          suggestions.innerHTML = '';
+          items = [];
+          selected = -1;
+          const {products, brands} = results || {products:[], brands:[]};
+          const container = document.createElement('div');
+
+          if(products && products.length){
+            products.forEach(p => {
+              const row = document.createElement('div');
+              row.className = 'sug-item sug-product';
+              row.style.display='flex'; row.style.gap='10px'; row.style.alignItems='center'; row.style.padding='10px 12px'; row.style.cursor='pointer';
+              row.style.borderBottom='1px solid #f6f6f6';
+
+              const img = document.createElement('img');
+              img.src = p.image || '/static/images/logo.jpg';
+              img.style.width='40px'; img.style.height='40px'; img.style.objectFit='cover'; img.style.borderRadius='6px';
+
+              const meta = document.createElement('div');
+              meta.style.flex='1';
+              meta.innerHTML = `<div style="font-weight:600;color:#111">${p.name}</div><div style="font-size:12px;color:#666">${p.price? p.price + ' тг' : ''}</div>`;
+
+              row.appendChild(img);
+              row.appendChild(meta);
+
+              row.addEventListener('click', ()=>{ window.location.href = '/big/' + p.id });
+              container.appendChild(row);
+              items.push({el: row, action: () => window.location.href = '/big/' + p.id});
+            })
+          }
+
+          if(brands && brands.length){
+            const sep = document.createElement('div'); sep.style.padding='8px 12px'; sep.style.fontSize='12px'; sep.style.color='#444'; sep.style.fontWeight='600'; sep.innerText = 'Бренды';
+            container.appendChild(sep);
+            brands.forEach(b => {
+              const row = document.createElement('div');
+              row.className = 'sug-item sug-brand';
+              row.style.padding='8px 12px'; row.style.cursor='pointer'; row.style.borderBottom='1px solid #f6f6f6'; row.style.color='#222';
+              row.innerHTML = `<div style="font-weight:600">${b}</div>`;
+              row.addEventListener('click', ()=>{ window.location.href = '/index2.html?brands=' + encodeURIComponent(b) });
+              container.appendChild(row);
+              items.push({el: row, action: () => window.location.href = '/index2.html?brands=' + encodeURIComponent(b)});
+            })
+          }
+
+          if(items.length){
+            suggestions.appendChild(container);
+            suggestions.style.display = 'block';
+          } else {
+            hide();
+          }
+        }
+
+        function highlight(index){
+          items.forEach((it, i)=>{
+            if(i===index){ it.el.style.background='#f4f6fb'; it.el.style.outline='2px solid rgba(99,102,241,0.08)'; it.el.scrollIntoView({block:'nearest'}); }
+            else { it.el.style.background=''; it.el.style.outline='none'; }
+          })
+        }
+
+        async function fetchSuggestions(q){
+          try{
+            const resp = await fetch('/search?q=' + encodeURIComponent(q));
+            if(!resp.ok) return render({products:[], brands:[]});
+            const j = await resp.json();
+            render(j);
+          }catch(e){ console.error(e); hide(); }
+        }
+
+        input && input.addEventListener('input', (e)=>{
+          const v = e.target.value.trim();
+          clearTimeout(timer);
+          if(!v){ hide(); return; }
+          timer = setTimeout(()=> fetchSuggestions(v), 250);
+        });
+
+        // click outside to hide
+        document.addEventListener('click', (ev)=>{ if(!ev.target.closest('.search-box')) hide(); });
+
+        // button triggers full search (go to catalog)
+        btn && btn.addEventListener('click', ()=>{
+          const v = input.value.trim(); if(!v) return; window.location.href = '/index2.html?brands=' + encodeURIComponent(v);
+        });
+
+        // keyboard navigation
+        input && input.addEventListener('keydown', (e)=>{
+          if(!items || items.length===0) return;
+          if(e.key === 'ArrowDown'){
+            e.preventDefault(); selected = Math.min(items.length-1, selected+1); highlight(selected);
+          } else if(e.key === 'ArrowUp'){
+            e.preventDefault(); selected = Math.max(0, selected-1); highlight(selected);
+          } else if(e.key === 'Enter'){
+            if(selected >=0 && items[selected]){ items[selected].action(); }
+          } else if(e.key === 'Escape'){
+            hide();
+          }
+        });
+      })();
+    </script>
+
+    <script>
+      // ====================================
+      //    ЛОГИКА АНИМАЦИИ НА ГЛАВНОЙ
+      // ====================================
+      window.addEventListener("DOMContentLoaded", () => {
+        const bigText = document.querySelector(".Big_text");
+        const bigImg = document.querySelector(".Big_text_img");
+        const WeBtn = document.querySelector(".welcome_button");
+        const textBtn = document.querySelector(".text_btn");
+        const mainHero = document.getElementById('main-hero');
+
+        // Изначальные стили для анимации
+        if (bigText) {
+            bigText.style.opacity = 0;
+            bigText.style.transform = "translateY(-50px)";
+            bigText.style.transition = "all 1.2s ease-out";
+        }
+        if (bigImg) {
+            bigImg.style.opacity = 0;
+            bigImg.style.transform = "scale(0.8)";
+            bigImg.style.transition = "all 1.2s ease-out";
+        }
+        if (WeBtn) {
+            WeBtn.style.opacity = 0;
+            WeBtn.style.transform = "translateY(50px)";
+            WeBtn.style.transition = "all 1.5s ease-out 0.5s ";
+        }
+        if (textBtn) {
+            textBtn.style.opacity = 0;
+            textBtn.style.transform = "translateY(50px)";
+            textBtn.style.transition = "all 1.5s ease-out 0.7s ";
+        }
+
+        // Запуск анимации
+        setTimeout(() => {
+          if (bigText) {
+            bigText.style.opacity = 1;
+            bigText.style.transform = "translateY(0)";
+          }
+          if (bigImg) {
+            bigImg.style.opacity = 1;
+            bigImg.style.transform = "scale(1)";
+          }
+          if (WeBtn) {
+            WeBtn.style.opacity = 1;
+            WeBtn.style.transform = "translateY(0)";
+          }
+          if (textBtn) {
+            textBtn.style.opacity = 1;
+            textBtn.style.transform = "translateY(0)";
+          }
+        }, 200);
+
+        // ====================================
+        //       НОВАЯ ЛОГИКА УМЕНЬШЕНИЯ ШАПКИ
+        // ====================================
+        const scrollTrigger = 300;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > scrollTrigger) {
+                mainHero.classList.add('shrink');
+            } else {
+                mainHero.classList.remove('shrink');
+            }
+        });
+      });
+
+      // ====================================
+      //       ЛОГИКА КНОПОК ПОКУПКИ/ХОВЕР
+      // ====================================
+      const buyBtn = document.querySelector(".welcome_button");
+      if (buyBtn) {
+        buyBtn.addEventListener("mouseenter", () => {
+          buyBtn.style.transform = "scale(1.05)";
+          buyBtn.style.transition = "0.3s ease";
+        });
+        buyBtn.addEventListener("mouseleave", () => {
+          buyBtn.style.transform = "scale(1)";
+        });
+      }
+
+
+      // ====================================
+      //       ЛОГИКА SWIPER
+      // ====================================
+      const swiper = new Swiper(".image-carousel", {
+        slidesPerView: 1,
+        loop: true,
+        autoplay: { delay: 3500, disableOnInteraction: false },
+        pagination: { el: ".swiper-pagination", clickable: true },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        effect: "fade",
+        fadeEffect: { crossFade: true },
+      });
+
+
+      // ====================================
+      //       ЛОГИКА АУТЕНТИФИКАЦИИ (Профиль/Логин)
+      // ====================================
+      const userExists = {{ 'true' if user else 'false' }};
+
+      function updateUI() {
+        const authButtons = document.getElementById("auth-buttons");
+        const profileDiv = document.getElementById("profile");
+
+        if (authButtons) {
+            authButtons.style.display = userExists ? "none" : "block";
+        }
+        if (profileDiv) {
+            profileDiv.style.display = userExists ? "block" : "none";
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", updateUI);
+      updateUI(); // Вызываем сразу для быстрой отрисовки
+
+
+      // ====================================
+      //        ФУНКЦИОНАЛ ЧАТ-БОТА (ИИ)
+      // ====================================
+      document.addEventListener('DOMContentLoaded', () => {
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const messagesContainer = document.getElementById('messages');
+        const typingIndicator = document.getElementById('typing-indicator');
+
+        if (!chatForm) return;
+
+        // Функция для добавления сообщения в окно чата
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + (isUser ? 'user-message' : 'system-message');
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = userInput.value.trim();
+
+            if (message === "") return;
+
+            // 1. Отобразить сообщение пользователя
+            addMessage(message, true);
+            userInput.value = '';
+
+            // 2. Показать индикатор печати
+            typingIndicator.style.display = 'block';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            try {
+                // 3. Отправить запрос на сервер
+                const formData = new FormData();
+                formData.append('message', message);
+
+                const response = await fetch('/chatbot', {
+                  method: 'POST',
+                  credentials: 'include',
+                  body: new URLSearchParams(formData),
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                  }
+                });
+
+                const data = await response.json();
+
+                // 4. Отобразить ответ ИИ
+                addMessage(data.reply);
+
+            } catch (error) {
+                console.error('Ошибка при получении ответа ИИ:', error);
+                addMessage("Извините, произошла ошибка связи с экспертом.");
+            } finally {
+                // 5. Скрыть индикатор печати
+                typingIndicator.style.display = 'none';
+            }
+        });
+      });
+    </script>
+  </body>
+</html>

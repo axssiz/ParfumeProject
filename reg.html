@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/style/reg.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <style>
+    /* reg.css */
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8f8f8, #e0e0e0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-form {
+      background-color: #ffffff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-form h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #7a4de0;
+      box-shadow: 0 0 5px rgba(116, 19, 26, 0.5);
+      outline: none;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(90deg, #5e191e, #a42d35);
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(116, 19, 26, 0.5);
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .register-link a {
+      color: #5e191e;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+
+    @media (max-width: 768px) {
+      body {
+        height: auto;
+        align-items: flex-start;
+        padding: 20px 15px;
+        min-height: 100vh;
+      }
+
+      .login-form {
+        width: 100%;
+        max-width: 100%;
+        padding: 30px 20px;
+        margin-top: 20px;
+        border-radius: 12px;
+      }
+
+      .login-form h2 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+      }
+
+      .input-group {
+        margin-bottom: 18px;
+      }
+
+      .input-group input {
+        padding: 14px 12px;
+        border-radius: 8px;
+        font-size: 16px;
+        height: 45px;
+      }
+
+      .login-button {
+        padding: 14px;
+        font-size: 1rem;
+        height: 45px;
+        border-radius: 8px;
+        margin-top: 10px;
+      }
+
+      .register-link {
+        margin-top: 20px;
+        font-size: 0.9rem;
+      }
+
+      .register-link a {
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px 10px;
+      }
+
+      .login-form {
+        padding: 20px 15px;
+        border-radius: 10px;
+      }
+
+      .login-form h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+      }
+
+      .input-group input {
+        padding: 12px 10px;
+        font-size: 14px;
+        height: 40px;
+      }
+
+      .login-button {
+        padding: 12px;
+        height: 40px;
+        font-size: 0.95rem;
+      }
+
+      .register-link {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+  <body>
+    <!DOCTYPE html>
+    <html lang="ru">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Форма Входа (Логин)</title>
+      </head>
+      <body>
+        <form class="login-form" action="/register" method="post">
+          <h2>Register</h2>
+          <div class="input-group">
+            <input
+              type="text"
+              name="username"
+              placeholder="Your Name"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <input type="email" name="email" placeholder="E-mail" required />
+          </div>
+
+          <div class="input-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="login-button">Register</button>
+
+          <p class="register-link">
+            Already have an account? <a href="/sign.html">Login.</a>
+          </p>
+        </form>
+      </body>
+    </html>
+  </body>
+</html>

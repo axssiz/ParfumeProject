@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-Панель: Управление</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Основная структура и фон */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f6f6; /* Немного светлее для контраста */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        /* Заголовок и навигация */
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            /* Используем цвет #5e191e для линии под заголовком */
+            border-bottom: 3px solid #5e191e; 
+            padding-bottom: 12px;
+        }
+        h1 {
+            /* Используем более светлый оттенок вашего цвета для заголовка */
+            color: #5e191e; 
+            font-size: 28px;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Стиль кнопки навигации (Назад/Профиль) */
+        .btn-back {
+            text-decoration: none;
+            padding: 10px 18px;
+            background-color: #a0a0a0; /* Нейтральный серый */
+            color: white;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn-back:hover {
+            background-color: #7d7d7d;
+        }
+        
+        /* Контейнер таблицы */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стили таблицы */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: #ffffff;
+            min-width: 700px;
+        }
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid #e8e8e8;
+            font-size: 14px;
+        }
+        
+        /* Заголовки */
+        th {
+            /* ГЛАВНОЕ ИЗМЕНЕНИЕ: Используем #5e191e */
+            background-color: #5e191e; 
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        th:first-child { border-top-left-radius: 12px; }
+        th:last-child { border-top-right-radius: 12px; }
+
+        /* Чередование строк и ховер */
+        tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        tr:hover {
+            background-color: #f7e8e8; /* Светло-розовый/бежевый оттенок при наведении */
+        }
+        
+        /* Последняя строка */
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Стилизация действий */
+        td:last-child {
+            white-space: nowrap;
+        }
+        .action-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        form {
+            display: inline-flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        /* Элемент SELECT */
+        select {
+            padding: 8px 10px;
+            border: 1px solid #a8a8a8;
+            border-radius: 6px;
+            background-color: #fff;
+            min-width: 110px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        select:focus {
+            /* Используем цвет #5e191e для фокусировки */
+            border-color: #5e191e;
+            outline: none;
+        }
+
+        /* Стиль кнопок (Общий) */
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-transform: capitalize;
+        }
+        
+        /* Кнопка "Сменить роль" (Зеленый - оставляем для действия) */
+        .btn-change {
+            background-color: #43a047; 
+        }
+        .btn-change:hover {
+            background-color: #388e3c;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Кнопка "Удалить" (Красный - оставляем для опасного действия) */
+        .btn-delete {
+            background-color: #e53935;
+        }
+        .btn-delete:hover {
+            background-color: #c62828;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Кнопка "Показать статистику" */
+        .btn-stats {
+            background-color: #1976d2;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+        .btn-stats:hover {
+            background-color: #1565c0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Раздел статистики */
+        .stats-section {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-section.active {
+            display: block;
+        }
+
+        .stats-section h2 {
+            color: #5e191e;
+            margin-top: 0;
+            border-bottom: 2px solid #5e191e;
+            padding-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #5e191e;
+        }
+
+        .stat-card strong {
+            color: #5e191e;
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .stat-info {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .stat-info div {
+            margin: 4px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header-controls">
+        <h1>Admin Panel: User Management</h1>
+        <a href="/profile" class="btn-back">← In Profile</a>
+    </div>
+    
+    <button class="btn-stats" onclick="toggleStats()">📊 Show Top Brands Stats (Subquery 1)</button>
+    
+    <div class="stats-section" id="statsSection">
+        <h2>Top Brands Statistics</h2>
+        <p id="loadingMsg" style="text-align: center; color: #999;">Loading data...</p>
+        <div class="stats-grid" id="statsGrid"></div>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    <div class="action-group">
+                        <form method="post" action="/admin/change_role">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <select name="new_role">
+                                <option value="client" {% if user.role=='client' %}selected{% endif %}>Client</option>
+                                <option value="worker" {% if user.role=='worker' %}selected{% endif %}>Worker</option>
+                                <option value="admin" {% if user.role=='admin' %}selected{% endif %}>Admin</option>
+                            </select>
+                            <button type="submit" class="btn-change">Change the role</button>
+                        </form>
+                        
+                        <form method="post" action="/admin/delete_user" onsubmit="return confirm('Are you sure you want to delete the user {{user.username }}?');">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script>
+        function toggleStats() {
+            const section = document.getElementById('statsSection');
+            section.classList.toggle('active');
+            
+            if (section.classList.contains('active')) {
+                loadBrandsStats();
+            }
+        }
+
+        async function loadBrandsStats() {
+            const grid = document.getElementById('statsGrid');
+            const loadingMsg = document.getElementById('loadingMsg');
+            
+            try {
+                const response = await fetch('/api/brands/stats?limit=15');
+                const data = await response.json();
+                
+                if (data.success && data.brands.length > 0) {
+                    loadingMsg.style.display = 'none';
+                    grid.innerHTML = data.brands.map(brand => `
+                        <div class="stat-card">
+                            <strong>${brand.brand}</strong>
+                            <div class="stat-info">
+                                <div><strong style="color: #333;">Products:</strong> ${brand.product_count}</div>
+                                <div><strong style="color: #333;">Avg Price:</strong> ${brand.avg_price} ₽</div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    loadingMsg.textContent = 'No data found';
+                }
+            } catch (error) {
+                loadingMsg.textContent = 'Error loading data: ' + error.message;
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
