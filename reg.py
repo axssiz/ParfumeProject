@@ -13,7 +13,7 @@ templates = Jinja2Templates(directory="templates")
 conn = psycopg2.connect(
     dbname="perfume",
     user="postgres",
-    password="1234",
+    password="",
     host="localhost",
     port="5432"
 )
