@@ -21,7 +21,7 @@ DB_CONFIG = {
     "host": "localhost",
     "database": "perfume_db",
     "user": "postgres",
-    "password": "Sula2206",
+    "password": "",
     "port": "5432",
 }
 
