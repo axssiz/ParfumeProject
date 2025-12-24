@@ -22,7 +22,7 @@ from fastapi import status
 # ======================
 
 # ВАЖНО: Замените своим ключом OpenRouter
-OPENROUTER_KEY = "" 
+OPENROUTER_KEY = #Убрал чтобы API не был в общем доступе
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_MODEL = "openai/gpt-4o-mini"
 
@@ -30,7 +30,7 @@ DB_CONFIG = {
     "host": "localhost",
     "database": "perfume_db",
     "user": "postgres",
-    "password": "",
+    "password": #Убрал чтобы пароль не был в общем доступе,
     "port": "5432",
 }
 
